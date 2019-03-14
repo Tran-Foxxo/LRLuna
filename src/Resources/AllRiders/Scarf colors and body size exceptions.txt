@@ -1,0 +1,23 @@
+Penguin             var c = Utility.ColorToRGBA_LE(0xD10101, (byte)(255 * opacity));
+            var alt = Utility.ColorToRGBA_LE(0xff6464, (byte)(255 * opacity)); 
+        public static readonly DoubleRect BodyRect = new DoubleRect(0.026, -3.145, 13.944, 12.5);
+        public static readonly DoubleRect ArmRect = new DoubleRect(-0.657, -1.2305, 7.82, 3.91);
+        public static readonly DoubleRect LegRect = new DoubleRect(-0.6535, -2.013, 8.02, 4.01);
+Basic  		    var c = Utility.ColorToRGBA_LE(0xD10101, (byte)(255 * opacity));
+            var alt = Utility.ColorToRGBA_LE(0xff6464, (byte)(255 * opacity)); 
+ 	public static readonly DoubleRect BodyRect = new DoubleRect(0.026, -3.145, 13.944, 6.972);
+        public static readonly DoubleRect ArmRect = new DoubleRect(-0.657, -1.2305, 7.82, 3.91);
+        public static readonly DoubleRect LegRect = new DoubleRect(-0.6535, -2.013, 8.02, 4.01);
+Luna                var c = Utility.ColorToRGBA_LE(0xD10101, (byte)(0 * opacity));
+            var alt = Utility.ColorToRGBA_LE(0xff6464, (byte)(0 * opacity));
+        public static readonly DoubleRect BodyRect = new DoubleRect(0.026, -3.145, 13.944, 7.1);
+        public static readonly DoubleRect ArmRect = new DoubleRect(-1.3, -2.05, 7.82, 3.91);
+        public static readonly DoubleRect LegRect = new DoubleRect(-0.6535, -2.013, 8.02, 4.01);
+Reverse	    var c = Utility.ColorToRGBA_LE(0xD10101, (byte)(255 * opacity));
+            var alt = Utility.ColorToRGBA_LE(0xff6464, (byte)(255 * opacity)); 
+ 	public static readonly DoubleRect BodyRect = new DoubleRect(0.026, -3.145, 13.944, 6.972);
+        public static readonly DoubleRect ArmRect = new DoubleRect(-0.657, -1.2305, 7.82, 3.91);
+        public static readonly DoubleRect LegRect = new DoubleRect(-0.6535, -2.013, 8.02, 4.01);
+
+            var c = Utility.ColorToRGBA_LE(0x94fbab, (byte)(255 * opacity));
+            var alt = Utility.ColorToRGBA_LE(0xbcfbdf, (byte)(127 * opacity));
