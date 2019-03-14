@@ -19,7 +19,7 @@ Features
 There are a lot of new features, I'll list them somewhere eventually
 Issues
 
-Be sure to direct message any issue you've found via Discord (for now) -- AetherGaming#8579
+Be sure to post any issues found in LRAether here: https://github.com/AetherGaming/LRAether/issues
 Build
 
 Run nuget restore in src (Visual Studio will do this for you) Build src/linerider.sln with msbuild or Visual Studio
