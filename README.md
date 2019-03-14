@@ -1,31 +1,31 @@
-About LRAether
+# About LRAether
 
 LRAether is an open source modification to Line Rider Advanced // https://github.com/jealouscloud/linerider-advanced
-Instructions
+# Instructions
 
 You can download the latest version on the releases page
-For Windows
+## Windows
 
 If you can't run the application, you probably need to install .net 4.6 which is a requirement for running LRA.
-Mac/Linux
+## Mac/Linux
 
 I'm sorry, but LRAether isn't available for Mac or Linux currently. If you wish to use LRAether, I'd recommend to get a Windows emulator.
-Features
+# Features
 
     Fast
     Features that aren't available in Line Rider Advanced
     Most features are LRA compatible
 
 There are a lot of new features, I'll list them somewhere eventually
-Issues
+# Issues
 
 Be sure to post any issues found in LRAether here: https://github.com/AetherGaming/LRAether/issues
-Build
+# Build
 
 Run nuget restore in src (Visual Studio will do this for you) Build src/linerider.sln with msbuild or Visual Studio
 
 This project requires .net 4.6 and C# 7 support.
-Libraries
+# Libraries
 
 This project uses binaries, sources, or modified sources from the following libraries:
 
@@ -37,6 +37,6 @@ This project uses binaries, sources, or modified sources from the following libr
 You can find their license info in LICENSES.txt
 
 The UI is a modified version by jealouscloud of gwen-dotnet
-License
+# License
 
 Line Rider - Aether is licensed under GPL3.
