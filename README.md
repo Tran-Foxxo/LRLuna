@@ -39,4 +39,4 @@ You can find their license info in LICENSES.txt
 The UI is a modified version by jealouscloud of gwen-dotnet
 License
 
-linerider-advanced is licensed under GPL3.
+Line Rider - Aether is licensed under GPL3.
