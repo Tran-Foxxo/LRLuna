@@ -28,6 +28,7 @@ using OpenTK.Graphics;
 using linerider.Audio;
 using linerider.UI;
 using linerider.Utils;
+using CallFunction;
 
 namespace linerider
 {
@@ -111,6 +112,12 @@ namespace linerider
         public static float SceneryColorBlue;
 
         public static int XY;
+
+        //end
+
+        //Timer
+
+        public static float MinutesElapsed; 
 
         //end
 
@@ -458,6 +465,9 @@ namespace linerider
             catch
             {
             }
+            MinTimer.Timer();
+            LoadFloat(GetSetting(lines, nameof(MinutesElapsed)), ref MinutesElapsed);
+
             LoadInt(GetSetting(lines, nameof(PointVar)), ref PointVar);
             LoadBool(GetSetting(lines, nameof(OffsledSledCam)), ref OffsledSledCam);
             LoadBool(GetSetting(lines, nameof(OffsledVar)), ref OffsledVar);
@@ -550,6 +560,8 @@ namespace linerider
         public static void Save()
         {
             string config = MakeSetting(nameof(LastSelectedTrack), LastSelectedTrack);
+
+            config += "\r\n" + MakeSetting(nameof(MinutesElapsed), MinutesElapsed.ToString(Program.Culture));
 
             config += "\r\n" + MakeSetting(nameof(PointVar), PointVar.ToString(Program.Culture));
             config += "\r\n" + MakeSetting(nameof(OffsledSledCam), OffsledSledCam.ToString(Program.Culture));

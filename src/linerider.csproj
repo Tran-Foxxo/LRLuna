@@ -171,6 +171,7 @@
     <Compile Include="IO\json\track_json.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UI\Dialogs\Timer.cs" />
     <Compile Include="UI\PlatformImpl.cs" />
     <Compile Include="UI\Hotkey.cs" />
     <Compile Include="UI\Fonts.cs" />

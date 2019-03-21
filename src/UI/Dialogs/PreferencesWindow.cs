@@ -1115,6 +1115,8 @@ namespace linerider.UI
                    Settings.CheckForUpdates = ((Checkbox)o).IsChecked;
                    Settings.Save();
                });
+            var accel = GwenHelper.CreateHeaderPanel(parent, ("Time Elapsed: " + Settings.MinutesElapsed + " minutes"));
+
         }
         private void Setup()
         {
