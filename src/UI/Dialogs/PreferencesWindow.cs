@@ -64,6 +64,36 @@ namespace linerider.UI
             };
         }
 
+        private void PopulateConfigToggle(ControlBase parent)
+        {
+            var configt = GwenHelper.CreateHeaderPanel(parent, "Configuration");
+            GwenHelper.AddCheckbox(configt, "Contact Points", Settings.ConfigTContactPoints, (o, e) =>
+            {
+                Settings.ConfigTContactPoints = ((Checkbox)o).IsChecked;
+                Settings.Save();
+            });
+            GwenHelper.AddCheckbox(configt, "Gravity Wells", Settings.ConfigTGravityWells, (o, e) =>
+            {
+                Settings.ConfigTGravityWells = ((Checkbox)o).IsChecked;
+                Settings.Save();
+            });
+            GwenHelper.AddCheckbox(configt, "Hit Test", Settings.ConfigTHitTest, (o, e) =>
+            {
+                Settings.ConfigTHitTest = ((Checkbox)o).IsChecked;
+                Settings.Save();
+            });
+            GwenHelper.AddCheckbox(configt, "Momentum Vectors", Settings.ConfigTMomentumVectors, (o, e) =>
+            {
+                Settings.ConfigTMomentumVectors = ((Checkbox)o).IsChecked;
+                Settings.Save();
+            });
+            GwenHelper.AddCheckbox(configt, "Onion Skinning", Settings.ConfigTOnionSkinning, (o, e) =>
+            {
+                Settings.ConfigTOnionSkinning = ((Checkbox)o).IsChecked;
+                Settings.Save();
+            });
+        }
+
         // Individual line options
 
         private void PopulateAccelLine(ControlBase parent)
@@ -774,7 +804,7 @@ namespace linerider.UI
                 Dock = Dock.Bottom,
                 Max = 2147483648,
                 Min = -2147483648,
-                Value = Settings.XFixed 
+                Value = Settings.YFixed 
             };
             yfixed.ValueChanged += (o, e) =>
             {
@@ -787,7 +817,7 @@ namespace linerider.UI
                 Dock = Dock.Bottom,
                 Max = 2147483648,
                 Min = -2147483648,
-                Value = Settings.YFixed
+                Value = Settings.XFixed
             };
             xfixed.ValueChanged += (o, e) =>
             {
@@ -1123,6 +1153,8 @@ namespace linerider.UI
             var cat = _prefcontainer.Add("Settings");
             var page = AddPage(cat, "Editor");
             PopulateEditor(page);
+            page = AddPage(cat, "Toggle Config");
+            PopulateConfigToggle(page);
             page = AddPage(cat, "Playback");
             PopulatePlayback(page);
             page = AddPage(cat, "Tools");

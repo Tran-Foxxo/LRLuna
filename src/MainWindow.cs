@@ -894,6 +894,58 @@ namespace linerider
         }
         private void RegisterEditorHotkeys()
         {
+            InputUtils.RegisterHotkey(Hotkey.ToggleAll, () => !Track.Playing, () =>
+            {
+                if (Settings.ToggleConfig)
+                {
+                    if (Settings.ConfigTContactPoints)
+                    {
+                        Settings.Editor.DrawContactPoints = true;
+                    }
+                    if (Settings.ConfigTGravityWells)
+                    {
+                        Settings.Editor.RenderGravityWells = true;
+                    }
+                    if (Settings.ConfigTHitTest)
+                    {
+                        Settings.Editor.HitTest = true;
+                    }
+                    if (Settings.ConfigTMomentumVectors)
+                    {
+                        Settings.Editor.MomentumVectors = true;
+                    }
+                    if (Settings.ConfigTOnionSkinning)
+                    {
+                        Settings.OnionSkinning = true;
+                    }
+                    Settings.ToggleConfig = false;
+                }
+                else
+                {
+                    if (Settings.ConfigTContactPoints)
+                    {
+                        Settings.Editor.DrawContactPoints = false;
+                    }
+                    if (Settings.ConfigTGravityWells)
+                    {
+                        Settings.Editor.RenderGravityWells = false;
+                    }
+                    if (Settings.ConfigTHitTest)
+                    {
+                        Settings.Editor.HitTest = false;
+                    }
+                    if (Settings.ConfigTMomentumVectors)
+                    {
+                        Settings.Editor.MomentumVectors = false;
+                    }
+                    if (Settings.ConfigTOnionSkinning)
+                    {
+                        Settings.OnionSkinning = false;
+                    }
+                    Settings.ToggleConfig = true;
+                }
+            });
+
             InputUtils.RegisterHotkey(Hotkey.ScenerySetSmall, () => !Track.Playing, () =>
             {
                 var toolswatch = CurrentTools.SelectedTool.Swatch;

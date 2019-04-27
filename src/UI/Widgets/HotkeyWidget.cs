@@ -60,15 +60,18 @@ namespace linerider.UI
         }
         private void Setup()
         {
-            var editortable = _kbtree.Add("Editor", 150);
+            var lines = _kbtree.Add("Lines", 150);
 
-            AddBinding(editortable, "Scenery Set x0.1", Hotkey.ScenerySetSmall);
-            AddBinding(editortable, "Scenery Increase x0.1", Hotkey.SceneryIncreaseBig);
-            AddBinding(editortable, "Scenery Decrease x0.1", Hotkey.SceneryDecreaseBig);
-            AddBinding(editortable, "Acceleration Set x1", Hotkey.AccelerationSetSmall);
-            AddBinding(editortable, "Acceleration Set x100", Hotkey.AccelerationSetMedium);
-            AddBinding(editortable, "Acceleration Set x200", Hotkey.AccelerationSetLarge);
-            AddBinding(editortable, "Acceleration Set x255", Hotkey.AccelerationSetMax);
+            AddBinding(lines, "Configurable Toggle", Hotkey.ToggleAll);
+            AddBinding(lines, "Scenery Set x0.1", Hotkey.ScenerySetSmall);
+            AddBinding(lines, "Scenery Increase x0.1", Hotkey.SceneryIncreaseBig);
+            AddBinding(lines, "Scenery Decrease x0.1", Hotkey.SceneryDecreaseBig);
+            AddBinding(lines, "Acceleration Set x1", Hotkey.AccelerationSetSmall);
+            AddBinding(lines, "Acceleration Set x100", Hotkey.AccelerationSetMedium);
+            AddBinding(lines, "Acceleration Set x200", Hotkey.AccelerationSetLarge);
+            AddBinding(lines, "Acceleration Set x255", Hotkey.AccelerationSetMax);
+
+            var editortable = _kbtree.Add("Editor", 150);
 
             AddBinding(editortable, "Pencil Tool", Hotkey.EditorPencilTool);
             AddBinding(editortable, "Line Tool", Hotkey.EditorLineTool);
@@ -93,6 +96,7 @@ namespace linerider.UI
 
 
             var tool = _kbtree.Add("Tool", 150);
+            AddBinding(tool, "Toggle Configured", Hotkey.ToggleAll);
             AddBinding(tool, "15° Line Snap", Hotkey.ToolXYSnap);
             AddBinding(tool, "Toggle Line Snap", Hotkey.ToolToggleSnap);
             AddBinding(tool, "Flip Line", Hotkey.LineToolFlipLine,

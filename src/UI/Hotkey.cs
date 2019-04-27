@@ -5,6 +5,9 @@ namespace linerider.UI
     public enum Hotkey
     {
         None,
+
+        ToggleAll,
+
         EditorPencilTool,
         EditorLineTool,
         EditorEraserTool,

@@ -81,6 +81,15 @@ namespace linerider
 
         public static bool MainLine;
 
+        //Configurable Toggle
+
+        public static bool ConfigTContactPoints;
+        public static bool ConfigTGravityWells;
+        public static bool ConfigTHitTest;
+        public static bool ConfigTOnionSkinning;
+        public static bool ConfigTMomentumVectors;
+        public static bool ToggleConfig;
+
         //Camera options
 
         public static int PointVar;
@@ -93,6 +102,8 @@ namespace linerider
 
         public static bool HorizontalTracking;
         public static bool VerticalTracking;
+
+        //end
 
         //individual line options
 
@@ -239,7 +250,14 @@ namespace linerider
             LineColorBlue = 127;
             MainLine = false;
 
-            PointVar = 0;
+            ConfigTContactPoints = false;
+            ConfigTGravityWells = false;
+            ConfigTHitTest = false;
+            ConfigTOnionSkinning = false;
+            ConfigTMomentumVectors = false;
+            ToggleConfig = false;
+
+        PointVar = 0;
             OffsledSledCam = false;
             OffsledVar = false;
 
@@ -277,6 +295,8 @@ namespace linerider
         }
         private static void SetupDefaultKeybinds()
         {
+            SetupDefaultKeybind(Hotkey.ToggleAll, new Keybinding(Key.O, KeyModifiers.Shift));
+
             SetupDefaultKeybind(Hotkey.ScenerySetSmall, new Keybinding(Key.Number4));
             SetupDefaultKeybind(Hotkey.SceneryIncreaseBig, new Keybinding(Key.Number6));
             SetupDefaultKeybind(Hotkey.SceneryDecreaseBig, new Keybinding(Key.Number7));
@@ -468,6 +488,13 @@ namespace linerider
             MinTimer.Timer();
             LoadFloat(GetSetting(lines, nameof(MinutesElapsed)), ref MinutesElapsed);
 
+            LoadBool(GetSetting(lines, nameof(ConfigTContactPoints)), ref ConfigTContactPoints);
+            LoadBool(GetSetting(lines, nameof(ConfigTGravityWells)), ref ConfigTGravityWells);
+            LoadBool(GetSetting(lines, nameof(ConfigTHitTest)), ref ConfigTHitTest);
+            LoadBool(GetSetting(lines, nameof(ConfigTMomentumVectors)), ref ConfigTMomentumVectors);
+            LoadBool(GetSetting(lines, nameof(ConfigTOnionSkinning)), ref ConfigTOnionSkinning);
+            LoadBool(GetSetting(lines, nameof(ToggleConfig)), ref ToggleConfig);
+
             LoadInt(GetSetting(lines, nameof(PointVar)), ref PointVar);
             LoadBool(GetSetting(lines, nameof(OffsledSledCam)), ref OffsledSledCam);
             LoadBool(GetSetting(lines, nameof(OffsledVar)), ref OffsledVar);
@@ -562,6 +589,13 @@ namespace linerider
             string config = MakeSetting(nameof(LastSelectedTrack), LastSelectedTrack);
 
             config += "\r\n" + MakeSetting(nameof(MinutesElapsed), MinutesElapsed.ToString(Program.Culture));
+
+            config += "\r\n" + MakeSetting(nameof(ConfigTContactPoints), ConfigTContactPoints.ToString(Program.Culture));
+            config += "\r\n" + MakeSetting(nameof(ConfigTGravityWells), ConfigTGravityWells.ToString(Program.Culture));
+            config += "\r\n" + MakeSetting(nameof(ConfigTHitTest), ConfigTHitTest.ToString(Program.Culture));
+            config += "\r\n" + MakeSetting(nameof(ConfigTMomentumVectors), ConfigTMomentumVectors.ToString(Program.Culture));
+            config += "\r\n" + MakeSetting(nameof(ConfigTOnionSkinning), ConfigTOnionSkinning.ToString(Program.Culture));
+            config += "\r\n" + MakeSetting(nameof(ToggleConfig), ToggleConfig.ToString(Program.Culture));
 
             config += "\r\n" + MakeSetting(nameof(PointVar), PointVar.ToString(Program.Culture));
             config += "\r\n" + MakeSetting(nameof(OffsledSledCam), OffsledSledCam.ToString(Program.Culture));
