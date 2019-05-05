@@ -98,7 +98,7 @@ namespace linerider.UI
 
         private void PopulateAccelLine(ControlBase parent)
         {
-            var accel = GwenHelper.CreateHeaderPanel(parent, "Line options");
+            var accel = GwenHelper.CreateHeaderPanel(parent, "Line Options");
             GwenHelper.AddCheckbox(accel, "Line Customization", Settings.AccelerationColorChange, (o, e) =>
             {
                 Settings.AccelerationColorChange = ((Checkbox)o).IsChecked;
@@ -106,60 +106,54 @@ namespace linerider.UI
             });
 
 
-            var coloraccel = GwenHelper.CreateHeaderPanel(parent, "Line Color");
-            HorizontalSlider redSlider = new HorizontalSlider(null)
+            var coloraccel = GwenHelper.CreateHeaderPanel(parent, "RGB");
+            var redS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.AccelerationColorRed,
-                Width = 80,
             };
-            redSlider.ValueChanged += (o, e) =>
+            redS.ValueChanged += (o, e) =>
             {
-                Settings.AccelerationColorRed = (float)redSlider.Value;
-                Constants.AccelerationRed = (float)redSlider.Value;
+                Settings.AccelerationColorRed = (int)redS.Value;
+                Constants.AccelerationRed = (int)redS.Value;
                 Settings.Save();
-                Constants.RedLineColored = Color.FromArgb((int)Constants.AccelerationRed, (int)Constants.AccelerationGreen, (int)Constants.AccelerationBlue);
+                Constants.RedLineColored = Color.FromArgb(Constants.AccelerationRed, Constants.AccelerationGreen, Constants.AccelerationBlue);
             };
-            GwenHelper.CreateLabeledControl(coloraccel, "Red", redSlider);
-            redSlider.Width = 200;
-            HorizontalSlider greenSlider = new HorizontalSlider(null)
+            GwenHelper.CreateLabeledControl(coloraccel, "Red", redS);
+            var greenS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.AccelerationColorGreen,
-                Width = 80,
             };
-            greenSlider.ValueChanged += (o, e) =>
+            greenS.ValueChanged += (o, e) =>
             {
-                Settings.AccelerationColorGreen = (float)greenSlider.Value;
-                Constants.AccelerationGreen = (float)greenSlider.Value;
+                Settings.AccelerationColorGreen = (int)greenS.Value;
+                Constants.AccelerationGreen = (int)greenS.Value;
                 Settings.Save();
-                Constants.RedLineColored = Color.FromArgb((int)Constants.AccelerationRed, (int)Constants.AccelerationGreen, (int)Constants.AccelerationBlue);
+                Constants.RedLineColored = Color.FromArgb(Constants.AccelerationRed, Constants.AccelerationGreen, Constants.AccelerationBlue);
             };
-            GwenHelper.CreateLabeledControl(coloraccel, "Green", greenSlider);
-            greenSlider.Width = 200;
-            HorizontalSlider blueSlider = new HorizontalSlider(null)
+            GwenHelper.CreateLabeledControl(coloraccel, "Green", greenS);
+            var blueS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.AccelerationColorBlue,
-                Width = 80,
             };
-            blueSlider.ValueChanged += (o, e) =>
+            blueS.ValueChanged += (o, e) =>
             {
-                Settings.AccelerationColorBlue = (float)blueSlider.Value;
-                Constants.AccelerationBlue = (float)blueSlider.Value;
+                Settings.AccelerationColorBlue = (int)blueS.Value;
+                Constants.AccelerationBlue = (int)blueS.Value;
                 Settings.Save();
-                Constants.RedLineColored = Color.FromArgb((int)Constants.AccelerationRed, (int)Constants.AccelerationGreen, (int)Constants.AccelerationBlue);
+                Constants.RedLineColored = Color.FromArgb(Constants.AccelerationRed, Constants.AccelerationGreen, Constants.AccelerationBlue);
             };
-            GwenHelper.CreateLabeledControl(coloraccel, "Blue", blueSlider);
-            blueSlider.Width = 200;
+            GwenHelper.CreateLabeledControl(coloraccel, "Blue", blueS);
         }
 
         private void PopulateNormalLine(ControlBase parent)
         {
-            var normal = GwenHelper.CreateHeaderPanel(parent, "Line options");
+            var normal = GwenHelper.CreateHeaderPanel(parent, "Line Options");
             GwenHelper.AddCheckbox(normal, "Line Customization", Settings.NormalColorChange, (o, e) =>
             {
                 Settings.NormalColorChange = ((Checkbox)o).IsChecked;
@@ -167,60 +161,54 @@ namespace linerider.UI
             });
 
 
-            var colornormal = GwenHelper.CreateHeaderPanel(parent, "Line Color");
-            HorizontalSlider redSlider = new HorizontalSlider(null)
+            var colornormal = GwenHelper.CreateHeaderPanel(parent, "RGB");
+            var redS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.NormalColorRed,
-                Width = 80,
             };
-            redSlider.ValueChanged += (o, e) =>
+            redS.ValueChanged += (o, e) =>
             {
-                Settings.NormalColorRed = (float)redSlider.Value;
-                Constants.NormalRed = (float)redSlider.Value;
+                Settings.NormalColorRed = (int)redS.Value;
+                Constants.NormalRed = (int)redS.Value;
                 Settings.Save();
-                Constants.BlueLineColored = Color.FromArgb((int)Constants.NormalRed, (int)Constants.NormalGreen, (int)Constants.NormalBlue);
+                Constants.BlueLineColored = Color.FromArgb(Constants.NormalRed, Constants.NormalGreen, Constants.NormalBlue);
             };
-            GwenHelper.CreateLabeledControl(colornormal, "Red", redSlider);
-            redSlider.Width = 200;
-            HorizontalSlider greenSlider = new HorizontalSlider(null)
+            GwenHelper.CreateLabeledControl(colornormal, "Red", redS);
+            var greenS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.NormalColorGreen,
-                Width = 80,
             };
-            greenSlider.ValueChanged += (o, e) =>
+            greenS.ValueChanged += (o, e) =>
             {
-                Settings.NormalColorGreen = (float)greenSlider.Value;
-                Constants.NormalGreen = (float)greenSlider.Value;
+                Settings.NormalColorGreen = (int)greenS.Value;
+                Constants.NormalGreen = (int)greenS.Value;
                 Settings.Save();
-                Constants.BlueLineColored = Color.FromArgb((int)Constants.NormalRed, (int)Constants.NormalGreen, (int)Constants.NormalBlue);
+                Constants.BlueLineColored = Color.FromArgb(Constants.NormalRed, Constants.NormalGreen, Constants.NormalBlue);
             };
-            GwenHelper.CreateLabeledControl(colornormal, "Green", greenSlider);
-            greenSlider.Width = 200;
-            HorizontalSlider blueSlider = new HorizontalSlider(null)
+            GwenHelper.CreateLabeledControl(colornormal, "Green", greenS);
+            var blueS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.NormalColorBlue,
-                Width = 80,
             };
-            blueSlider.ValueChanged += (o, e) =>
+            blueS.ValueChanged += (o, e) =>
             {
-                Settings.NormalColorBlue = (float)blueSlider.Value;
-                Constants.NormalBlue = (float)blueSlider.Value;
+                Settings.NormalColorBlue = (int)blueS.Value;
+                Constants.NormalBlue = (int)blueS.Value;
                 Settings.Save();
-                Constants.BlueLineColored = Color.FromArgb((int)Constants.NormalRed, (int)Constants.NormalGreen, (int)Constants.NormalBlue);
+                Constants.BlueLineColored = Color.FromArgb(Constants.NormalRed, Constants.NormalGreen, Constants.NormalBlue);
             };
-            GwenHelper.CreateLabeledControl(colornormal, "Blue", blueSlider);
-            blueSlider.Width = 200;
+            GwenHelper.CreateLabeledControl(colornormal, "Blue", blueS);
         }
 
         private void PopulateSceneryLine(ControlBase parent)
         {
-            var scenery = GwenHelper.CreateHeaderPanel(parent, "Line options");
+            var scenery = GwenHelper.CreateHeaderPanel(parent, "Line Options");
             GwenHelper.AddCheckbox(scenery, "Line Customization", Settings.SceneryColorChange, (o, e) =>
             {
                 Settings.SceneryColorChange = ((Checkbox)o).IsChecked;
@@ -228,55 +216,49 @@ namespace linerider.UI
             });
 
 
-            var colorscenery = GwenHelper.CreateHeaderPanel(parent, "Line Color");
-            HorizontalSlider redSlider = new HorizontalSlider(null)
+            var colorscenery = GwenHelper.CreateHeaderPanel(parent, "RGB");
+            var redS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.SceneryColorRed,
-                Width = 80,
             };
-            redSlider.ValueChanged += (o, e) =>
+            redS.ValueChanged += (o, e) =>
             {
-                Settings.SceneryColorRed = (float)redSlider.Value;
-                Constants.SceneryRed = (float)redSlider.Value;
+                Settings.SceneryColorRed = (int)redS.Value;
+                Constants.SceneryRed = (int)redS.Value;
                 Settings.Save();
-                Constants.SceneryLineColored = Color.FromArgb((int)Constants.SceneryRed, (int)Constants.SceneryGreen, (int)Constants.SceneryBlue);
+                Constants.SceneryLineColored = Color.FromArgb(Constants.SceneryRed, Constants.SceneryGreen, Constants.SceneryBlue);
             };
-            GwenHelper.CreateLabeledControl(colorscenery, "Red", redSlider);
-            redSlider.Width = 200;
-            HorizontalSlider greenSlider = new HorizontalSlider(null)
+            GwenHelper.CreateLabeledControl(colorscenery, "Red", redS);
+            var greenS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.SceneryColorGreen,
-                Width = 80,
             };
-            greenSlider.ValueChanged += (o, e) =>
+            greenS.ValueChanged += (o, e) =>
             {
-                Settings.SceneryColorGreen = (float)greenSlider.Value;
-                Constants.SceneryGreen = (float)greenSlider.Value;
+                Settings.SceneryColorGreen = (int)greenS.Value;
+                Constants.SceneryGreen = (int)greenS.Value;
                 Settings.Save();
-                Constants.SceneryLineColored = Color.FromArgb((int)Constants.SceneryRed, (int)Constants.SceneryGreen, (int)Constants.SceneryBlue);
+                Constants.SceneryLineColored = Color.FromArgb(Constants.SceneryRed, Constants.SceneryGreen, Constants.SceneryBlue);
             };
-            GwenHelper.CreateLabeledControl(colorscenery, "Green", greenSlider);
-            greenSlider.Width = 200;
-            HorizontalSlider blueSlider = new HorizontalSlider(null)
+            GwenHelper.CreateLabeledControl(colorscenery, "Green", greenS);
+            var blueS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.SceneryColorBlue,
-                Width = 80,
             };
-            blueSlider.ValueChanged += (o, e) =>
+            blueS.ValueChanged += (o, e) =>
             {
-                Settings.SceneryColorBlue = (float)blueSlider.Value;
-                Constants.SceneryBlue = (float)blueSlider.Value;
+                Settings.SceneryColorBlue = (int)blueS.Value;
+                Constants.SceneryBlue = (int)blueS.Value;
                 Settings.Save();
-                Constants.SceneryLineColored = Color.FromArgb((int)Constants.SceneryRed, (int)Constants.SceneryGreen, (int)Constants.SceneryBlue);
+                Constants.SceneryLineColored = Color.FromArgb(Constants.SceneryRed, Constants.SceneryGreen, Constants.SceneryBlue);
             };
-            GwenHelper.CreateLabeledControl(colorscenery, "Blue", blueSlider);
-            blueSlider.Width = 200;
+            GwenHelper.CreateLabeledControl(colorscenery, "Blue", blueS);
         }
 
         // End of Individual line options
@@ -284,18 +266,18 @@ namespace linerider.UI
         private void PopulateLines2(ControlBase parent)
         {
             var lineoptions2 = GwenHelper.CreateHeaderPanel(parent, "XY Lock options");
-            Spinner xylock = new Spinner(lineoptions2)
+            var xylock = new Spinner(null)
             {
-                Dock = Dock.Bottom,
                 Max = 180,
                 Min = 1,
                 Value = Settings.XY,
             };
             xylock.ValueChanged += (o, e) =>
             {
-                Settings.XY = (int)xylock.Value;
+                Settings.XY = (float)xylock.Value;
                 Settings.Save();
             };
+            GwenHelper.CreateLabeledControl(lineoptions2, "XY Degrees", xylock);
         }
 
         private void PopulateLines(ControlBase parent)
@@ -307,184 +289,48 @@ namespace linerider.UI
                 Settings.Save();
             });
             var coloroptions = GwenHelper.CreateHeaderPanel(parent, "Color options");
-            HorizontalSlider redSlider = new HorizontalSlider(null)
+            var redS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.LineColorRed,
-                Width = 80,
             };
-            redSlider.ValueChanged += (o, e) =>
+            redS.ValueChanged += (o, e) =>
             {
-                Settings.LineColorRed = (float)redSlider.Value;
-                Constants.LineRed = (float)redSlider.Value;
+                Settings.LineColorRed = (int)redS.Value;
+                Constants.LineRed = (int)redS.Value;
                 Settings.Save();
-                Constants.ColorDefaultLine = Color.FromArgb((int)Constants.LineRed, (int)Constants.LineGreen, (int)Constants.LineBlue);
+                Constants.ColorDefaultLine = Color.FromArgb(Constants.LineRed, Constants.LineGreen, Constants.LineBlue);
             };
-            GwenHelper.CreateLabeledControl(coloroptions, "Main Red", redSlider);
-            redSlider.Width = 200;
-            HorizontalSlider greenSlider = new HorizontalSlider(null)
+            GwenHelper.CreateLabeledControl(coloroptions, "Red", redS);
+            var greenS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.LineColorGreen,
-                Width = 80,
             };
-            greenSlider.ValueChanged += (o, e) =>
+            greenS.ValueChanged += (o, e) =>
             {
-                Settings.LineColorGreen = (float)greenSlider.Value;
-                Constants.LineGreen = (float)greenSlider.Value;
+                Settings.LineColorGreen = (int)greenS.Value;
+                Constants.LineGreen = (int)greenS.Value;
                 Settings.Save();
-                Constants.ColorDefaultLine = Color.FromArgb((int)Constants.LineRed, (int)Constants.LineGreen, (int)Constants.LineBlue);
+                Constants.ColorDefaultLine = Color.FromArgb(Constants.LineRed, Constants.LineGreen, Constants.LineBlue);
             };
-            GwenHelper.CreateLabeledControl(coloroptions, "Main Green", greenSlider);
-            greenSlider.Width = 200;
-            HorizontalSlider blueSlider = new HorizontalSlider(null)
+            GwenHelper.CreateLabeledControl(coloroptions, "Green", greenS);
+            var blueS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.LineColorBlue,
-                Width = 80,
             };
-            blueSlider.ValueChanged += (o, e) =>
+            blueS.ValueChanged += (o, e) =>
             {
-                Settings.LineColorBlue = (float)blueSlider.Value;
-                Constants.LineBlue = (float)blueSlider.Value;
+                Settings.LineColorBlue = (int)blueS.Value;
+                Constants.LineBlue = (int)blueS.Value;
                 Settings.Save();
-                Constants.ColorDefaultLine = Color.FromArgb((int)Constants.LineRed, (int)Constants.LineGreen, (int)Constants.LineBlue);
+                Constants.ColorDefaultLine = Color.FromArgb(Constants.LineRed, Constants.LineGreen, Constants.LineBlue);
             };
-            GwenHelper.CreateLabeledControl(coloroptions, "Main Blue", blueSlider);
-            blueSlider.Width = 200;
-
-            //Buttons
-
-            Button lyellow = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 150),
-                Text = "Yellow"
-            };
-            lyellow.Clicked += (o, e) => LineYellow();
-            void LineYellow()
-            {
-                Settings.LineColorRed = 255;
-                Constants.LineRed = Settings.LineColorRed;
-                Settings.LineColorGreen = 255;
-                Constants.LineGreen = Settings.LineColorGreen;
-                Settings.LineColorBlue = 0;
-                Constants.LineBlue = Settings.LineColorBlue;
-                Constants.ColorDefaultLine = Constants.ColorDefaultLine = Color.FromArgb((int)Constants.LineRed, (int)Constants.LineGreen, (int)Constants.LineBlue);
-            }
-
-            Button laqua = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 150),
-                Text = "Aqua"
-            };
-            laqua.Clicked += (o, e) => LineAqua();
-            void LineAqua()
-            {
-                Settings.LineColorRed = 0;
-                Constants.LineRed = Settings.LineColorRed;
-                Settings.LineColorGreen = 255;
-                Constants.LineGreen = Settings.LineColorGreen;
-                Settings.LineColorBlue = 255;
-                Constants.LineBlue = Settings.LineColorBlue;
-                Constants.ColorDefaultLine = Constants.ColorDefaultLine = Color.FromArgb((int)Constants.LineRed, (int)Constants.LineGreen, (int)Constants.LineBlue);
-            }
-
-            Button lmagenta = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 150),
-                Text = "Magenta"
-            };
-            lmagenta.Clicked += (o, e) => LineMagenta();
-            void LineMagenta()
-            {
-                Settings.LineColorRed = 255;
-                Constants.LineRed = Settings.LineColorRed;
-                Settings.LineColorGreen = 0;
-                Constants.LineGreen = Settings.LineColorGreen;
-                Settings.LineColorBlue = 255;
-                Constants.LineBlue = Settings.LineColorBlue;
-                Constants.ColorDefaultLine = Constants.ColorDefaultLine = Color.FromArgb((int)Constants.LineRed, (int)Constants.LineGreen, (int)Constants.LineBlue);
-            }
-
-            Button lred = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 150),
-                Text = "Red"
-            };
-            lred.Clicked += (o, e) => LineRed();
-            void LineRed()
-            {
-                Settings.LineColorRed = 255;
-                Constants.LineRed = Settings.LineColorRed;
-                Settings.LineColorGreen = 0;
-                Constants.LineGreen = Settings.LineColorGreen;
-                Settings.LineColorBlue = 0;
-                Constants.LineBlue = Settings.LineColorBlue;
-                Constants.ColorDefaultLine = Constants.ColorDefaultLine = Color.FromArgb((int)Constants.LineRed, (int)Constants.LineGreen, (int)Constants.LineBlue);
-            }
-
-            Button lgreen = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 150),
-                Text = "Green"
-            };
-            lgreen.Clicked += (o, e) => LineGreen();
-            void LineGreen()
-            {
-                Settings.LineColorRed = 0;
-                Constants.LineRed = Settings.LineColorRed;
-                Settings.LineColorGreen = 255;
-                Constants.LineGreen = Settings.LineColorGreen;
-                Settings.LineColorBlue = 0;
-                Constants.LineBlue = Settings.LineColorBlue;
-                Constants.ColorDefaultLine = Constants.ColorDefaultLine = Color.FromArgb((int)Constants.LineRed, (int)Constants.LineGreen, (int)Constants.LineBlue);
-            }
-
-            Button lblue = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 150),
-                Text = "Blue"
-            };
-            lblue.Clicked += (o, e) => LineBlue();
-            void LineBlue()
-            {
-                Settings.LineColorRed = 0;
-                Constants.LineRed = Settings.LineColorRed;
-                Settings.LineColorGreen = 0;
-                Constants.LineGreen = Settings.LineColorGreen;
-                Settings.LineColorBlue = 255;
-                Constants.LineBlue = Settings.LineColorBlue;
-                Constants.ColorDefaultLine = Constants.ColorDefaultLine = Color.FromArgb((int)Constants.LineRed, (int)Constants.LineGreen, (int)Constants.LineBlue);
-            }
-
-            Button lgray = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 150),
-                Text = "Gray"
-            };
-            lgray.Clicked += (o, e) => LineGray();
-            void LineGray()
-            {
-                Settings.LineColorRed = 127;
-                Constants.LineRed = Settings.LineColorRed;
-                Settings.LineColorGreen = 127;
-                Constants.LineGreen = Settings.LineColorGreen;
-                Settings.LineColorBlue = 127;
-                Constants.LineBlue = Settings.LineColorBlue;
-                Constants.ColorDefaultLine = Constants.ColorDefaultLine = Color.FromArgb((int)Constants.LineRed, (int)Constants.LineGreen, (int)Constants.LineBlue);
-            }
-
-            //End of Buttons
+            GwenHelper.CreateLabeledControl(coloroptions, "Blue", blueS);
         }
         private void PopulateAudio(ControlBase parent)
         {
@@ -558,185 +404,49 @@ namespace linerider.UI
             };
             superzoom.Tooltip = "Allows the user to zoom in\nnearly 10x more than usual.";
 
-            var colbg = GwenHelper.CreateHeaderPanel(parent, "Colored background options");
-            HorizontalSlider redSlider = new HorizontalSlider(null)
+            var colbg = GwenHelper.CreateHeaderPanel(parent, "Colored Background RGB");
+            var redS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.RedColored,
-                Width = 80,
             };
-            redSlider.ValueChanged += (o, e) =>
+            redS.ValueChanged += (o, e) =>
             {
-                Settings.RedColored = (float)redSlider.Value;
-                Constants.Red = (float)redSlider.Value;
+                Settings.RedColored = (int)redS.Value;
+                Constants.Red = (int)redS.Value;
                 Settings.Save();
-                Constants.ColorColored = new Color4(((float)Constants.Red / 255), ((float)Constants.Green / 255), ((float)Constants.Blue / 255), 255);
+                Constants.ColorColored = new Color4((float)(Constants.Red / 255), (float)(Constants.Green / 255), (float)(Constants.Blue / 255), 255);
             };
-            GwenHelper.CreateLabeledControl(colbg, "Red", redSlider);
-            redSlider.Width = 200;
-            HorizontalSlider greenSlider = new HorizontalSlider(null)
+            GwenHelper.CreateLabeledControl(colbg, "Red", redS);
+            var greenS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.GreenColored,
-                Width = 80,
             };
-            greenSlider.ValueChanged += (o, e) =>
+            greenS.ValueChanged += (o, e) =>
             {
-                Settings.GreenColored = (float)greenSlider.Value;
-                Constants.Green = (float)greenSlider.Value;
+                Settings.GreenColored = (int)greenS.Value;
+                Constants.Green = (int)greenS.Value;
                 Settings.Save();
-                Constants.ColorColored = new Color4(((float)Constants.Red / 255), ((float)Constants.Green / 255), ((float)Constants.Blue / 255), 255);
+                Constants.ColorColored = new Color4((float)(Constants.Red / 255), (float)(Constants.Green / 255), (float)(Constants.Blue / 255), 255);
             };
-            GwenHelper.CreateLabeledControl(colbg, "Green", greenSlider);
-            greenSlider.Width = 200;
-            HorizontalSlider blueSlider = new HorizontalSlider(null)
+            GwenHelper.CreateLabeledControl(colbg, "Green", greenS);
+            var blueS = new Spinner(null)
             {
                 Min = 0,
                 Max = 255,
                 Value = Settings.BlueColored,
-                Width = 80,
             };
-            blueSlider.ValueChanged += (o, e) =>
+            blueS.ValueChanged += (o, e) =>
             {
-                Settings.BlueColored = (float)blueSlider.Value;
-                Constants.Blue = (float)blueSlider.Value;
+                Settings.BlueColored = (int)blueS.Value;
+                Constants.Blue = (int)blueS.Value;
                 Settings.Save();
-                Constants.ColorColored = new Color4(((float)Constants.Red / 255), ((float)Constants.Green / 255), ((float)Constants.Blue / 255), 255);
+                Constants.ColorColored = new Color4((float)(Constants.Red / 255), (float)(Constants.Green / 255), (float)(Constants.Blue / 255), 255);
             };
-            GwenHelper.CreateLabeledControl(colbg, "Blue", blueSlider);
-            blueSlider.Width = 200;
-
-            //Buttons
-
-            Button bgyellow = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 0),
-                Text = "Yellow"
-            };
-            bgyellow.Clicked += (o, e) => backgroundYellow();
-            void backgroundYellow()
-            {
-                Settings.RedColored = 255;
-                Constants.Red = Settings.RedColored;
-                Settings.GreenColored = 255;
-                Constants.Green = Settings.GreenColored;
-                Settings.BlueColored = 0;
-                Constants.Blue = Settings.BlueColored;
-                Constants.ColorColored = new Color4(((float)Constants.Red / 255), ((float)Constants.Green / 255), ((float)Constants.Blue / 255), 255);
-            }
-
-            Button bgaqua = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 0),
-                Text = "Aqua"
-            };
-            bgaqua.Clicked += (o, e) => backgroundAqua();
-            void backgroundAqua()
-            {
-                Settings.RedColored = 0;
-                Constants.Red = Settings.RedColored;
-                Settings.GreenColored = 255;
-                Constants.Green = Settings.GreenColored;
-                Settings.BlueColored = 255;
-                Constants.Blue = Settings.BlueColored;
-                Constants.ColorColored = new Color4(((float)Constants.Red / 255), ((float)Constants.Green / 255), ((float)Constants.Blue / 255), 255);
-            }
-
-            Button bgmagenta = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 0),
-                Text = "Magenta"
-            };
-            bgmagenta.Clicked += (o, e) => backgroundMagenta();
-            void backgroundMagenta()
-            {
-                Settings.RedColored = 255;
-                Constants.Red = Settings.RedColored;
-                Settings.GreenColored = 0;
-                Constants.Green = Settings.GreenColored;
-                Settings.BlueColored = 255;
-                Constants.Blue = Settings.BlueColored;
-                Constants.ColorColored = new Color4(((float)Constants.Red / 255), ((float)Constants.Green / 255), ((float)Constants.Blue / 255), 255);
-            }
-
-            Button bgred = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 0),
-                Text = "Red"
-            };
-            bgred.Clicked += (o, e) => backgroundRed();
-            void backgroundRed()
-            {
-                Settings.RedColored = 255;
-                Constants.Red = Settings.RedColored;
-                Settings.GreenColored = 0;
-                Constants.Green = Settings.GreenColored;
-                Settings.BlueColored = 0;
-                Constants.Blue = Settings.BlueColored;
-                Constants.ColorColored = new Color4(((float)Constants.Red / 255), ((float)Constants.Green / 255), ((float)Constants.Blue / 255), 255);
-            }
-
-            Button bggreen = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 0),
-                Text = "Green"
-            };
-            bggreen.Clicked += (o, e) => backgroundGreen();
-            void backgroundGreen()
-            {
-                Settings.RedColored = 0;
-                Constants.Red = Settings.RedColored;
-                Settings.GreenColored = 255;
-                Constants.Green = Settings.GreenColored;
-                Settings.BlueColored = 0;
-                Constants.Blue = Settings.BlueColored;
-                Constants.ColorColored = new Color4(((float)Constants.Red / 255), ((float)Constants.Green / 255), ((float)Constants.Blue / 255), 255);
-            }
-
-            Button bgblue = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 0),
-                Text = "Blue"
-            };
-            bgblue.Clicked += (o, e) => backgroundBlue();
-            void backgroundBlue()
-            {
-                Settings.RedColored = 0;
-                Constants.Red = Settings.RedColored;
-                Settings.GreenColored = 0;
-                Constants.Green = Settings.GreenColored;
-                Settings.BlueColored = 255;
-                Constants.Blue = Settings.BlueColored;
-                Constants.ColorColored = new Color4(((float)Constants.Red / 255), ((float)Constants.Green / 255), ((float)Constants.Blue / 255), 255);
-            }
-
-            Button bggray = new Button(parent)
-            {
-                Dock = Dock.Left,
-                Margin = new Margin(0, 2, 0, 0),
-                Text = "Gray"
-            };
-            bggray.Clicked += (o, e) => backgroundGray();
-            void backgroundGray()
-            {
-                Settings.RedColored = 127;
-                Constants.Red = Settings.RedColored;
-                Settings.GreenColored = 127;
-                Constants.Green = Settings.GreenColored;
-                Settings.BlueColored = 127;
-                Constants.Blue = Settings.BlueColored;
-                Constants.ColorColored = new Color4(((float)Constants.Red / 255), ((float)Constants.Green / 255), ((float)Constants.Blue / 255), 255);
-            }
-
-            //End of Buttons
+            GwenHelper.CreateLabeledControl(colbg, "Blue", blueS);
         }
         private void PopulateCamera(ControlBase parent)
         {
@@ -799,25 +509,12 @@ namespace linerider.UI
                 Settings.Save();
             };
             var fixedpos = GwenHelper.CreateHeaderPanel(parent, "Fixed Camera X and Y Position");
-            Spinner yfixed = new Spinner(fixedpos)
+            var xfixed = new Spinner(null)
             {
                 Dock = Dock.Bottom,
                 Max = 2147483648,
                 Min = -2147483648,
-                Value = Settings.YFixed 
-            };
-            yfixed.ValueChanged += (o, e) =>
-            {
-                Settings.YFixed = (int)yfixed.Value;
-                Settings.Save();
-                _editor.InitCamera();
-            };
-            Spinner xfixed = new Spinner(fixedpos)
-            {
-                Dock = Dock.Bottom,
-                Max = 2147483648,
-                Min = -2147483648,
-                Value = Settings.XFixed
+                Value = Settings.XFixed 
             };
             xfixed.ValueChanged += (o, e) =>
             {
@@ -825,6 +522,21 @@ namespace linerider.UI
                 Settings.Save();
                 _editor.InitCamera();
             };
+            var yfixed = new Spinner(null)
+            {
+                Dock = Dock.Bottom,
+                Max = 2147483648,
+                Min = -2147483648,
+                Value = Settings.YFixed
+            };
+            yfixed.ValueChanged += (o, e) =>
+            {
+                Settings.YFixed = (int)yfixed.Value;
+                Settings.Save();
+                _editor.InitCamera();
+            };
+            GwenHelper.CreateLabeledControl(fixedpos, "X Location", xfixed);
+            GwenHelper.CreateLabeledControl(fixedpos, "Y Location", yfixed);
             if (Settings.SmoothCamera)
             {
                 if (Settings.PredictiveCamera)
@@ -1103,35 +815,31 @@ namespace linerider.UI
                 Settings.Save();
             });
             var onsk = GwenHelper.CreateHeaderPanel(parent, "Onion Skinning Options");
-            HorizontalSlider osb = new HorizontalSlider(null)
+            var osb = new Spinner(null)
             {
                 Min = 0,
-                Max = 50,
+                Max = 100,
                 Value = Settings.OnionSkinningBack,
-                Width = 80,
             };
             osb.ValueChanged += (o, e) =>
             {
                 Settings.OnionSkinningBack = (int)osb.Value;
                 Settings.Save();
             };
-            GwenHelper.CreateLabeledControl(onsk, "Onionskins Back", osb);
-            osb.Width = 200;
+            GwenHelper.CreateLabeledControl(onsk, "Onionskinning Back", osb);
 
-            HorizontalSlider osf = new HorizontalSlider(null)
+            var osf = new Spinner(null)
             {
                 Min = 0,
-                Max = 50,
+                Max = 100,
                 Value = Settings.OnionSkinningFront,
-                Width = 80,
             };
             osf.ValueChanged += (o, e) =>
             {
                 Settings.OnionSkinningFront = (int)osf.Value;
                 Settings.Save();
             };
-            GwenHelper.CreateLabeledControl(onsk, "Onionskins Front", osf);
-            osf.Width = 200;
+            GwenHelper.CreateLabeledControl(onsk, "Onionskinning Front", osf);
 
             forcesnap.Tooltip = "Forces all lines drawn to\nsnap to a 45 degree angle";
             movelinesnap.Tooltip = "Snap to lines when using the\nselect tool to move a single line";

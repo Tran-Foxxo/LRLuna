@@ -55,7 +55,7 @@ namespace linerider.Rendering
             _trackrenderer.Render(options);
             if (Settings.OnionSkinning)
             {
-                float onionsf = Settings.OnionSkinningFront;
+                float onionsf = (Settings.OnionSkinningFront + 1);
                 float onionsb = -(Settings.OnionSkinningBack);
                 for (int i = (int)Math.Round(onionsb); i < (int)Math.Round(onionsf); i++)
                 {

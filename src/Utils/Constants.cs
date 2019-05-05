@@ -9,45 +9,45 @@ namespace linerider.Utils
         public static float Green = Settings.GreenColored;
         public static float Blue = Settings.BlueColored;
 
-        public static float LineRed = Settings.LineColorRed;
-        public static float LineGreen = Settings.LineColorGreen;
-        public static float LineBlue = Settings.LineColorBlue;
+        public static int LineRed = Settings.LineColorRed;
+        public static int LineGreen = Settings.LineColorGreen;
+        public static int LineBlue = Settings.LineColorBlue;
 
-        public static float NormalRed = Settings.NormalColorRed;
-        public static float NormalGreen = Settings.NormalColorGreen;
-        public static float NormalBlue = Settings.NormalColorBlue;
+        public static int NormalRed = Settings.NormalColorRed;
+        public static int NormalGreen = Settings.NormalColorGreen;
+        public static int NormalBlue = Settings.NormalColorBlue;
 
-        public static float AccelerationRed = Settings.AccelerationColorRed;
-        public static float AccelerationGreen = Settings.AccelerationColorGreen;
-        public static float AccelerationBlue = Settings.AccelerationColorBlue;
+        public static int AccelerationRed = Settings.AccelerationColorRed;
+        public static int AccelerationGreen = Settings.AccelerationColorGreen;
+        public static int AccelerationBlue = Settings.AccelerationColorBlue;
 
-        public static float SceneryRed = Settings.SceneryColorRed;
-        public static float SceneryGreen = Settings.SceneryColorGreen;
-        public static float SceneryBlue = Settings.SceneryColorBlue;
+        public static int SceneryRed = Settings.SceneryColorRed;
+        public static int SceneryGreen = Settings.SceneryColorGreen;
+        public static int SceneryBlue = Settings.SceneryColorBlue;
 
         public static readonly Color4 ColorOffwhite = new Color4(244, 245, 249, 255);
         public static readonly Color4 ColorWhite = new Color4(255, 255, 255, 255);
         public static readonly Color4 ColorNightMode = new Color4(22, 22, 22, 255);
 
-        public static Color4 ColorColored = new Color4(((float)Red/255), ((float)Green/255), ((float)Blue/255), 255);
+        public static Color4 ColorColored = new Color4((float)(Red/255), (float)(Green/255), (float)(Blue/255), 255);
 
         public static readonly int[] MotionArray =
         {
             1, 2, 5, 10, 20, 30, 40, 80, 160, 320, 640
         };
         public static readonly Color RedLineColor = Color.FromArgb(0xCC, 0, 0);
-        public static Color RedLineColored = Color.FromArgb((int)AccelerationRed, (int)AccelerationGreen, (int)AccelerationBlue);
+        public static Color RedLineColored = Color.FromArgb(AccelerationRed, AccelerationGreen, AccelerationBlue);
 
         public static readonly Color BlueLineColor = Color.FromArgb(0, 0x66, 0xFF);
-        public static Color BlueLineColored = Color.FromArgb((int)NormalRed, (int)NormalGreen, (int)NormalBlue);
+        public static Color BlueLineColored = Color.FromArgb(NormalRed, NormalGreen, NormalBlue);
 
         public static readonly Color SceneryLineColor = Color.FromArgb(0, 0xCC, 0);
-        public static Color SceneryLineColored = Color.FromArgb((int)SceneryRed, (int)SceneryGreen, (int)SceneryBlue);
+        public static Color SceneryLineColored = Color.FromArgb(SceneryRed, SceneryGreen, SceneryBlue);
 
         public static readonly Color TriggerLineColor = Color.FromArgb(0xFF, 0x95, 0x4F);
 
         public static readonly Color DefaultLineColor = Color.FromArgb(0, 0, 0);
-        public static Color ColorDefaultLine = Color.FromArgb((int)LineRed, (int)LineGreen, (int)LineBlue);
+        public static Color ColorDefaultLine = Color.FromArgb(LineRed, LineGreen, LineBlue);
 
         public static readonly Color DefaultNightLineColor = Color.FromArgb(255, 255, 255);
 

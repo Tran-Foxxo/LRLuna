@@ -75,9 +75,9 @@ namespace linerider
         public static float GreenColored;
         public static float BlueColored;
 
-        public static float LineColorRed;
-        public static float LineColorGreen;
-        public static float LineColorBlue;
+        public static int LineColorRed;
+        public static int LineColorGreen;
+        public static int LineColorBlue;
 
         public static bool MainLine;
 
@@ -108,21 +108,21 @@ namespace linerider
         //individual line options
 
         public static bool NormalColorChange;
-        public static float NormalColorRed;
-        public static float NormalColorGreen;
-        public static float NormalColorBlue;
+        public static int NormalColorRed;
+        public static int NormalColorGreen;
+        public static int NormalColorBlue;
 
         public static bool AccelerationColorChange;
-        public static float AccelerationColorRed;
-        public static float AccelerationColorGreen;
-        public static float AccelerationColorBlue;
+        public static int AccelerationColorRed;
+        public static int AccelerationColorGreen;
+        public static int AccelerationColorBlue;
 
         public static bool SceneryColorChange;
-        public static float SceneryColorRed;
-        public static float SceneryColorGreen;
-        public static float SceneryColorBlue;
+        public static int SceneryColorRed;
+        public static int SceneryColorGreen;
+        public static int SceneryColorBlue;
 
-        public static int XY;
+        public static float XY;
 
         //end
 
@@ -509,28 +509,28 @@ namespace linerider
             LoadFloat(GetSetting(lines, nameof(GreenColored)), ref GreenColored);
             LoadFloat(GetSetting(lines, nameof(BlueColored)), ref BlueColored);
 
-            LoadInt(GetSetting(lines, nameof(XY)), ref XY);
+            LoadFloat(GetSetting(lines, nameof(XY)), ref XY);
 
-            LoadFloat(GetSetting(lines, nameof(LineColorRed)), ref LineColorRed);
-            LoadFloat(GetSetting(lines, nameof(LineColorGreen)), ref LineColorGreen);
-            LoadFloat(GetSetting(lines, nameof(LineColorBlue)), ref LineColorBlue);
+            LoadInt(GetSetting(lines, nameof(LineColorRed)), ref LineColorRed);
+            LoadInt(GetSetting(lines, nameof(LineColorGreen)), ref LineColorGreen);
+            LoadInt(GetSetting(lines, nameof(LineColorBlue)), ref LineColorBlue);
 
             LoadBool(GetSetting(lines, nameof(MainLine)), ref MainLine);
 
             LoadBool(GetSetting(lines, nameof(NormalColorChange)), ref NormalColorChange);
-            LoadFloat(GetSetting(lines, nameof(NormalColorRed)), ref NormalColorRed);
-            LoadFloat(GetSetting(lines, nameof(NormalColorGreen)), ref NormalColorGreen);
-            LoadFloat(GetSetting(lines, nameof(NormalColorBlue)), ref NormalColorBlue);
+            LoadInt(GetSetting(lines, nameof(NormalColorRed)), ref NormalColorRed);
+            LoadInt(GetSetting(lines, nameof(NormalColorGreen)), ref NormalColorGreen);
+            LoadInt(GetSetting(lines, nameof(NormalColorBlue)), ref NormalColorBlue);
 
             LoadBool(GetSetting(lines, nameof(AccelerationColorChange)), ref AccelerationColorChange);
-            LoadFloat(GetSetting(lines, nameof(AccelerationColorRed)), ref AccelerationColorRed);
-            LoadFloat(GetSetting(lines, nameof(AccelerationColorGreen)), ref AccelerationColorGreen);
-            LoadFloat(GetSetting(lines, nameof(AccelerationColorBlue)), ref AccelerationColorBlue);
+            LoadInt(GetSetting(lines, nameof(AccelerationColorRed)), ref AccelerationColorRed);
+            LoadInt(GetSetting(lines, nameof(AccelerationColorGreen)), ref AccelerationColorGreen);
+            LoadInt(GetSetting(lines, nameof(AccelerationColorBlue)), ref AccelerationColorBlue);
 
             LoadBool(GetSetting(lines, nameof(SceneryColorChange)), ref SceneryColorChange);
-            LoadFloat(GetSetting(lines, nameof(SceneryColorRed)), ref SceneryColorRed);
-            LoadFloat(GetSetting(lines, nameof(SceneryColorGreen)), ref SceneryColorGreen);
-            LoadFloat(GetSetting(lines, nameof(SceneryColorBlue)), ref SceneryColorBlue);
+            LoadInt(GetSetting(lines, nameof(SceneryColorRed)), ref SceneryColorRed);
+            LoadInt(GetSetting(lines, nameof(SceneryColorGreen)), ref SceneryColorGreen);
+            LoadInt(GetSetting(lines, nameof(SceneryColorBlue)), ref SceneryColorBlue);
 
             LoadInt(GetSetting(lines, nameof(PlaybackZoomType)), ref PlaybackZoomType);
             LoadFloat(GetSetting(lines, nameof(PlaybackZoomValue)), ref PlaybackZoomValue);
