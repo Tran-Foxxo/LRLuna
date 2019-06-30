@@ -194,6 +194,37 @@ namespace linerider
                 return GetBitmap("rider.bodydead.png");
             }
         }
+
+        internal static Bitmap arglinbody_img
+        {
+            get
+            {
+                return GetBitmap("rider.arglinbody.png");
+            }
+        }
+        internal static Bitmap arglinbodydead_img
+        {
+            get
+            {
+                return GetBitmap("rider.arglinbodydead.png");
+            }
+        }
+
+        internal static Bitmap basicbody_img
+        {
+            get
+            {
+                return GetBitmap("rider.basicbody.png");
+            }
+        }
+        internal static Bitmap basicbodydead_img
+        {
+            get
+            {
+                return GetBitmap("rider.basicbodydead.png");
+            }
+        }
+
         #endregion
         #region cursors
         internal static System.Drawing.Bitmap cursor_move

@@ -306,6 +306,10 @@
     <EmbeddedResource Include="Resources\rider\brokensled.png" />
     <EmbeddedResource Include="Resources\rider\arm.png" />
     <EmbeddedResource Include="Resources\rider\leg.png" />
+    <EmbeddedResource Include="Resources\rider\arglinbody.png" />
+    <EmbeddedResource Include="Resources\rider\arglinbodydead.png" />
+    <EmbeddedResource Include="Resources\rider\basicbody.png" />
+    <EmbeddedResource Include="Resources\rider\basicbodydead.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\fonts\liberation_sans_15_0.png" />

@@ -29,6 +29,13 @@ namespace linerider
         public static int BodyDeadTexture;
         public static int ArmTexture;
         public static int LegTexture;
+
+        public static int ArglinBodyTexture;
+        public static int ArglinBodyDeadTexture;
+
+        public static int BasicBodyTexture;
+        public static int BasicBodyDeadTexture;
+
         public static readonly DoubleRect SledRect = new DoubleRect(-0.6875, -2.3125, 17.9195, 8.95975);
         public static readonly DoubleRect BrokenSledRect = new DoubleRect(-0.3645, -2.3125, 17.477, 8.7385);
         public static readonly DoubleRect BodyRect = new DoubleRect(0.026, -3.145, 13.944, 6.972);
@@ -54,6 +61,12 @@ namespace linerider
 
             ArmTexture = StaticRenderer.LoadTexture(GameResources.arm_img);
             LegTexture = StaticRenderer.LoadTexture(GameResources.leg_img);
+
+            ArglinBodyTexture = StaticRenderer.LoadTexture(GameResources.arglinbody_img);
+            ArglinBodyDeadTexture = StaticRenderer.LoadTexture(GameResources.arglinbodydead_img);
+
+            BasicBodyTexture = StaticRenderer.LoadTexture(GameResources.basicbody_img);
+            BasicBodyDeadTexture = StaticRenderer.LoadTexture(GameResources.basicbodydead_img);
         }
     }
 }

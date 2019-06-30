@@ -5,6 +5,10 @@ uniform sampler2D u_armtex;
 uniform sampler2D u_legtex;
 uniform sampler2D u_sledtex;
 uniform sampler2D u_brokensledtex;
+uniform sampler2D u_arglinbodytex;
+uniform sampler2D u_arglinbodydeadtex;
+uniform sampler2D u_basicbodytex;
+uniform sampler2D u_basicbodydeadtex;
 
 varying float v_unit;
 varying vec4 v_color;
@@ -27,7 +31,15 @@ void main()
         color = texture2D(u_sledtex, v_texcoord);
     else if (v_unit == 6.0)
         color = texture2D(u_brokensledtex, v_texcoord);
-    else
+    else if (v_unit == 7.0)
+		color = texture2D(u_arglinbodytex, v_texcoord);
+    else if (v_unit == 8.0)
+		color = texture2D(u_arglinbodydeadtex, v_texcoord);
+    else if (v_unit == 9.0)
+		color = texture2D(u_basicbodytex, v_texcoord);
+    else if (v_unit == 10.0)
+		color = texture2D(u_basicbodydeadtex, v_texcoord);
+	else
         color = vec4(1.0, 0.0, 0.0, 1.0);//invalid, show red
     gl_FragColor = color * v_color;
 }

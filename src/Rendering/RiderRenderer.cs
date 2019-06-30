@@ -193,6 +193,8 @@ namespace linerider.Rendering
                     opacity);
             }
 
+
+
             DrawTexture(
                 Tex.Leg,
                 Models.LegRect,
@@ -233,6 +235,220 @@ namespace linerider.Rendering
                 Models.ArmUV,
                 points[RiderConstants.BodyShoulder].Location,
                 points[RiderConstants.BodyHandLeft].Location,
+                opacity);
+
+            DrawTexture(
+                 Tex.Leg,
+                 Models.LegRect,
+                 Models.LegUV,
+                 points[RiderConstants.BodyButt2].Location,
+                 points[RiderConstants.BodyFootRight2].Location,
+                 opacity);
+
+            DrawTexture(
+                Tex.Arm,
+                Models.ArmRect,
+                Models.ArmUV,
+                points[RiderConstants.BodyShoulder2].Location,
+                points[RiderConstants.BodyHandRight2].Location,
+                opacity);
+            if (!rider.Crashed)
+                DrawLine(
+                    points[RiderConstants.BodyHandRight2].Location,
+                    points[RiderConstants.SledTR2].Location,
+                    ChangeOpacity(Color.Black, opacity),
+                    0.1f);
+
+            if (rider.SledBroken)
+            {
+                var nose = points[RiderConstants.SledTR2].Location - points[RiderConstants.SledTL2].Location;
+                var tail = points[RiderConstants.SledBL2].Location - points[RiderConstants.SledTL2].Location;
+                if ((nose.X * tail.Y) - (nose.Y * tail.X) < 0)
+                {
+                    var olduv = Models.BrokenSledUV;
+                    //we're upside down
+                    DrawTexture(
+                        Tex.BrokenSled,
+                        Models.BrokenSledRect,
+                        FloatRect.FromLRTB(
+                            olduv.Left,
+                            olduv.Right,
+                            olduv.Bottom,
+                            olduv.Top),
+                        points[RiderConstants.SledBL2].Location,
+                        points[RiderConstants.SledBR2].Location, opacity);
+                }
+                else
+                {
+                    DrawTexture(
+                        Tex.BrokenSled,
+                        Models.BrokenSledRect,
+                        Models.BrokenSledUV,
+                        points[RiderConstants.SledTL2].Location,
+                        points[RiderConstants.SledTR2].Location,
+                        opacity);
+                }
+            }
+            else
+            {
+                DrawTexture(
+                    Tex.Sled,
+                    Models.SledRect,
+                    Models.SledUV,
+                    points[RiderConstants.SledTL2].Location,
+                    points[RiderConstants.SledTR2].Location,
+                    opacity);
+            }
+
+
+
+            DrawTexture(
+                Tex.Leg,
+                Models.LegRect,
+                    Models.LegUV,
+                points[RiderConstants.BodyButt2].Location,
+                points[RiderConstants.BodyFootLeft2].Location,
+                opacity);
+            if (!rider.Crashed)
+            {
+                DrawTexture(
+                    Tex.ArglinBody,
+                    Models.BodyRect,
+                    Models.BodyUV,
+                    points[RiderConstants.BodyButt2].Location,
+                    points[RiderConstants.BodyShoulder2].Location,
+                    opacity);
+            }
+            else
+            {
+                DrawTexture(
+                    Tex.ArglinBodyDead,
+                    Models.BodyRect,
+                    Models.DeadBodyUV,
+                    points[RiderConstants.BodyButt2].Location,
+                    points[RiderConstants.BodyShoulder2].Location,
+                    opacity);
+            }
+            if (!rider.Crashed)
+                DrawLine(
+                    points[RiderConstants.BodyHandLeft2].Location,
+                    points[RiderConstants.SledTR2].Location,
+                    ChangeOpacity(Color.Black, opacity),
+                    0.1f);
+
+            DrawTexture(
+                Tex.Arm,
+                Models.ArmRect,
+                Models.ArmUV,
+                points[RiderConstants.BodyShoulder2].Location,
+                points[RiderConstants.BodyHandLeft2].Location,
+                opacity);
+
+            DrawTexture(
+                Tex.Leg,
+                Models.LegRect,
+                Models.LegUV,
+                points[RiderConstants.BodyButt3].Location,
+                points[RiderConstants.BodyFootRight3].Location,
+                opacity);
+
+            DrawTexture(
+                Tex.Arm,
+                Models.ArmRect,
+                Models.ArmUV,
+                points[RiderConstants.BodyShoulder3].Location,
+                points[RiderConstants.BodyHandRight3].Location,
+                opacity);
+            if (!rider.Crashed)
+                DrawLine(
+                    points[RiderConstants.BodyHandRight3].Location,
+                    points[RiderConstants.SledTR3].Location,
+                    ChangeOpacity(Color.Black, opacity),
+                    0.1f);
+
+            if (rider.SledBroken)
+            {
+                var nose = points[RiderConstants.SledTR3].Location - points[RiderConstants.SledTL3].Location;
+                var tail = points[RiderConstants.SledBL3].Location - points[RiderConstants.SledTL3].Location;
+                if ((nose.X * tail.Y) - (nose.Y * tail.X) < 0)
+                {
+                    var olduv = Models.BrokenSledUV;
+                    //we're upside down
+                    DrawTexture(
+                        Tex.BrokenSled,
+                        Models.BrokenSledRect,
+                        FloatRect.FromLRTB(
+                            olduv.Left,
+                            olduv.Right,
+                            olduv.Bottom,
+                            olduv.Top),
+                        points[RiderConstants.SledBL3].Location,
+                        points[RiderConstants.SledBR3].Location, opacity);
+                }
+                else
+                {
+                    DrawTexture(
+                        Tex.BrokenSled,
+                        Models.BrokenSledRect,
+                        Models.BrokenSledUV,
+                        points[RiderConstants.SledTL3].Location,
+                        points[RiderConstants.SledTR3].Location,
+                        opacity);
+                }
+            }
+            else
+            {
+                DrawTexture(
+                    Tex.Sled,
+                    Models.SledRect,
+                    Models.SledUV,
+                    points[RiderConstants.SledTL3].Location,
+                    points[RiderConstants.SledTR3].Location,
+                    opacity);
+            }
+
+
+
+            DrawTexture(
+                Tex.Leg,
+                Models.LegRect,
+                    Models.LegUV,
+                points[RiderConstants.BodyButt3].Location,
+                points[RiderConstants.BodyFootLeft3].Location,
+                opacity);
+            if (!rider.Crashed)
+            {
+                DrawTexture(
+                    Tex.BasicBody,
+                    Models.BodyRect,
+                    Models.BodyUV,
+                    points[RiderConstants.BodyButt3].Location,
+                    points[RiderConstants.BodyShoulder3].Location,
+                    opacity);
+            }
+            else
+            {
+                DrawTexture(
+                    Tex.BasicBodyDead,
+                    Models.BodyRect,
+                    Models.DeadBodyUV,
+                    points[RiderConstants.BodyButt3].Location,
+                    points[RiderConstants.BodyShoulder3].Location,
+                    opacity);
+            }
+            if (!rider.Crashed)
+                DrawLine(
+                    points[RiderConstants.BodyHandLeft3].Location,
+                    points[RiderConstants.SledTR3].Location,
+                    ChangeOpacity(Color.Black, opacity),
+                    0.1f);
+
+            DrawTexture(
+                Tex.Arm,
+                Models.ArmRect,
+                Models.ArmUV,
+                points[RiderConstants.BodyShoulder3].Location,
+                points[RiderConstants.BodyHandLeft3].Location,
                 opacity);
         }
         public void Clear()
@@ -276,6 +492,14 @@ namespace linerider.Rendering
             GL.BindTexture(TextureTarget.Texture2D, Models.SledTexture);
             GL.ActiveTexture(TextureUnit.Texture5);
             GL.BindTexture(TextureTarget.Texture2D, Models.BrokenSledTexture);
+            GL.ActiveTexture(TextureUnit.Texture6);
+            GL.BindTexture(TextureTarget.Texture2D, Models.ArglinBodyTexture);
+            GL.ActiveTexture(TextureUnit.Texture7);
+            GL.BindTexture(TextureTarget.Texture2D, Models.ArglinBodyDeadTexture);
+            GL.ActiveTexture(TextureUnit.Texture8);
+            GL.BindTexture(TextureTarget.Texture2D, Models.BasicBodyTexture);
+            GL.ActiveTexture(TextureUnit.Texture9);
+            GL.BindTexture(TextureTarget.Texture2D, Models.BasicBodyDeadTexture);
 
             GL.Uniform1(_shader.GetUniform("u_bodytex"), 0);
             GL.Uniform1(_shader.GetUniform("u_bodydeadtex"), 1);
@@ -283,6 +507,10 @@ namespace linerider.Rendering
             GL.Uniform1(_shader.GetUniform("u_legtex"), 3);
             GL.Uniform1(_shader.GetUniform("u_sledtex"), 4);
             GL.Uniform1(_shader.GetUniform("u_brokensledtex"), 5);
+            GL.Uniform1(_shader.GetUniform("u_arglinbodytex"), 6);
+            GL.Uniform1(_shader.GetUniform("u_arglinbodydeadtex"), 7);
+            GL.Uniform1(_shader.GetUniform("u_basicbodytex"), 8);
+            GL.Uniform1(_shader.GetUniform("u_basicbodydeadtex"), 9);
 
         }
         public void DrawLines()
@@ -465,6 +693,10 @@ namespace linerider.Rendering
             Leg = 4,
             Sled = 5,
             BrokenSled = 6,
+            ArglinBody = 7,
+            ArglinBodyDead = 8,
+            BasicBody = 9,
+            BasicBodyDead = 10,
         }
         /// <summary>
         /// A vertex meant for the simulation line shader
