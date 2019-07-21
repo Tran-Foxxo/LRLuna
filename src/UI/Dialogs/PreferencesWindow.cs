@@ -499,7 +499,7 @@ namespace linerider.UI
             Spinner pointvar = new Spinner(variables)
             {
                 Dock = Dock.Bottom,
-                Max = 9,
+                Max = 29,
                 Min = 0,
                 Value = Settings.PointVar,
             };
