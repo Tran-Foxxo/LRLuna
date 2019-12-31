@@ -1,15 +1,19 @@
-# About LRAether
+# About LRLuna
 
 LRAether is an open source modification to Line Rider Advanced // https://github.com/jealouscloud/linerider-advanced
 # Instructions
 
 You can download the latest version on the releases page
+Download gwen-lra here: https://github.com/jealouscloud/gwen-lra (it's necessary, put it in the dedicated folder)
+
+Afterwards, use visual studio to build the thing.
+
 ## Windows
 
 If you can't run the application, you probably need to install .net 4.6 which is a requirement for running LRA.
 ## Mac/Linux
 
-I'm sorry, but LRAether isn't available for Mac or Linux currently. If you wish to use LRAether, I'd recommend to get a Windows emulator.
+LRLuna isn't available for Mac or Linux currently. If you wish to use LRLuna, I'd recommend to use WineBottler.
 # Features
 
     Fast
@@ -19,7 +23,7 @@ I'm sorry, but LRAether isn't available for Mac or Linux currently. If you wish 
 There are a lot of new features, I'll list them somewhere eventually
 # Issues
 
-Be sure to post any issues found in LRAether here: https://github.com/AetherGaming/LRAether/issues
+Be sure to post any issues found in LRLuna here: https://github.com/AetherGaming/LRAether/issues
 # Build
 
 Run nuget restore in src (Visual Studio will do this for you) Build src/linerider.sln with msbuild or Visual Studio
@@ -39,4 +43,4 @@ You can find their license info in LICENSES.txt
 The UI is a modified version by jealouscloud of gwen-dotnet
 # License
 
-Line Rider - Aether is licensed under GPL3.
+Line Rider - Luna is licensed under GPL3.
