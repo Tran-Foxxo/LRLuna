@@ -1,6 +1,6 @@
 # About LRLuna
 
-LRAether is an open source modification to Line Rider Advanced // https://github.com/jealouscloud/linerider-advanced
+LRLuna is an open source modification to Line Rider Advanced // https://github.com/jealouscloud/linerider-advanced
 # Instructions
 
 You can download the latest version on the releases page
