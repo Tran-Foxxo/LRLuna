@@ -60,20 +60,10 @@ namespace linerider.Game
                     case RiderConstants.SledTL:
                     case RiderConstants.BodyButt:
                     case RiderConstants.BodyShoulder:
-                    case RiderConstants.SledTL2:
-                    case RiderConstants.BodyButt2:
-                    case RiderConstants.BodyShoulder2:
-                    case RiderConstants.SledTL3:
-                    case RiderConstants.BodyButt3:
-                    case RiderConstants.BodyShoulder3:
                         joints[i] = new SimulationPoint(coord, prev, Vector2d.Zero, 0.8);
                         break;
                     case RiderConstants.BodyHandLeft:
                     case RiderConstants.BodyHandRight:
-                    case RiderConstants.BodyHandLeft2:
-                    case RiderConstants.BodyHandRight2:
-                    case RiderConstants.BodyHandLeft3:
-                    case RiderConstants.BodyHandRight3:
                         joints[i] = new SimulationPoint(coord, prev, Vector2d.Zero, 0.1);
                         break;
 
@@ -333,25 +323,6 @@ namespace linerider.Game
                     sledbroken = true;
                 }
 
-                var nose2 = body[RiderConstants.SledTR2].Location - body[RiderConstants.SledTL2].Location;
-                var tail2 = body[RiderConstants.SledBL2].Location - body[RiderConstants.SledTL2].Location;
-                var head2 = body[RiderConstants.BodyShoulder2].Location - body[RiderConstants.BodyButt2].Location;
-                if ((nose2.X * tail2.Y) - (nose2.Y * tail2.X) < 0 || // tail fakie
-                    (nose2.X * head2.Y) - (nose2.Y * head2.X) > 0)   // head fakie
-                {
-                    dead = true;
-                    sledbroken = true;
-                }
-
-                var nose3 = body[RiderConstants.SledTR3].Location - body[RiderConstants.SledTL3].Location;
-                var tail3 = body[RiderConstants.SledBL3].Location - body[RiderConstants.SledTL3].Location;
-                var head3 = body[RiderConstants.BodyShoulder3].Location - body[RiderConstants.BodyButt3].Location;
-                if ((nose3.X * tail3.Y) - (nose3.Y * tail3.X) < 0 || // tail fakie
-                    (nose3.X * head3.Y) - (nose3.Y * head3.X) > 0)   // head fakie
-                {
-                    dead = true;
-                    sledbroken = true;
-                }
             }
             SimulationPoint[] scarf;
             if (stepscarf)
