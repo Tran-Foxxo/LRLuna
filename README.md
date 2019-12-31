@@ -6,7 +6,7 @@ LRLuna is an open source modification to Line Rider Advanced // https://github.c
 You can download the latest version on the releases page
 Download gwen-lra here: https://github.com/jealouscloud/gwen-lra (it's necessary, put it in the dedicated folder)
 
-Afterwards, use visual studio to build the thing.
+Afterwards, use visual studio to build the thing or just use the stuff I've provided in the build folder.
 
 ## Windows
 
