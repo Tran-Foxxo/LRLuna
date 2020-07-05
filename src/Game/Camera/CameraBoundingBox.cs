@@ -28,10 +28,11 @@ namespace linerider.Game
         {
             RiderPosition = ridercenter;
         }
-        public static CameraBoundingBox Create(Vector2d center, float zoom)
+        public static CameraBoundingBox Create(Vector2d center, float zoom, Vector2d offset)
         {
-            CameraBoundingBox box = new CameraBoundingBox(center);
-            if (Settings.RoundLegacyCamera || Settings.SmoothCamera)
+            CameraBoundingBox box = new CameraBoundingBox(new Vector2d(center.X + offset.X, center.Y + offset.Y));
+
+             if (Settings.RoundLegacyCamera || Settings.SmoothCamera)
                 box.SetupSmooth(0, zoom);
             else
                 box.SetupLegacy(zoom);

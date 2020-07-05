@@ -5,27 +5,54 @@ namespace linerider.Game
 {
     public class RiderConstants
     {
-        public static readonly Vector2d[] DefaultRider = new[] {
-                new Vector2d(0, -200+400),
-                new Vector2d(0, -195+400),
-                new Vector2d(15, -195+400),
-                new Vector2d(17.5, -200+400),
-                new Vector2d(5, -200+400),
-                new Vector2d(5, -205.5+400),
-                new Vector2d(11.5, -205+400),
-                new Vector2d(11.5, -205+400),
-                new Vector2d(10, -195+400),
-                new Vector2d(10, -195+400),
-            };
+        public static Vector2d[] DefaultRider = createDefaultRider();
+        public static Vector2d[] createDefaultRider()
+        {
+            List<Vector2d> defaultRiderVectorList = new List<Vector2d>();
 
-        public static readonly Vector2d[] DefaultScarf = new[] {
-                new Vector2d(-2,-0.5),
-                new Vector2d(-3.5,-0.5),
-                new Vector2d(-5.5,-0.5),
-                new Vector2d(-7,-0.5),
-                new Vector2d(-9,-0.5),
-                new Vector2d(-11.5,-0.5),
-        };
+            defaultRiderVectorList.Add((new Vector2d(0, 0)));
+            defaultRiderVectorList.Add(new Vector2d(0, 5));
+            defaultRiderVectorList.Add(new Vector2d(15, 5));
+            defaultRiderVectorList.Add(new Vector2d(17.5, 0));
+            defaultRiderVectorList.Add(new Vector2d(5, 0));
+            defaultRiderVectorList.Add(new Vector2d(5, -5.5));
+            defaultRiderVectorList.Add(new Vector2d(11.5, -5));
+            defaultRiderVectorList.Add(new Vector2d(11.5, -5));
+            defaultRiderVectorList.Add(new Vector2d(10, 5));
+            defaultRiderVectorList.Add(new Vector2d(10, 5));
+
+            return defaultRiderVectorList.ToArray();
+        }
+        //public static readonly Vector2d[] DefaultScarf = new[] {
+        //        new Vector2d(-2,-0.5),
+        //        new Vector2d(-3.5,-0.5),
+        //        new Vector2d(-5.5,-0.5),
+        //        new Vector2d(-7,-0.5),
+        //        new Vector2d(-9,-0.5),
+        //        new Vector2d(-11.5,-0.5),
+        //};
+        public static Vector2d[] DefaultScarf = createDefaultScarf();
+        public static Vector2d[] createDefaultScarf()
+        {
+            List<Vector2d> scarfVectors = new List<Vector2d>();
+            double scarfPos = 0;
+            for (int i = 0; i < Settings.ScarfSegments; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    scarfPos = scarfPos - 2;
+                    scarfVectors.Add(new Vector2d(scarfPos, 0.5));
+                }
+                else
+                {
+                    scarfPos = scarfPos - 1.5;
+                    scarfVectors.Add(new Vector2d(scarfPos, 0.5));
+                }
+
+            }
+            scarfPos = scarfPos - 1.5;
+            return scarfVectors.ToArray();
+        }
 
 
         public const double EnduranceFactor = 0.0285;
@@ -43,7 +70,7 @@ namespace linerider.Game
         public const int BodyFootRight = 9;
 
         public static readonly Bone[] Bones;
-        public static readonly Bone[] ScarfBones;
+        public static Bone[] ScarfBones;
 
         static RiderConstants()
         {
@@ -77,12 +104,10 @@ namespace linerider.Game
 
             Bones = bonelist.ToArray();
             bonelist = new List<Bone>();
-            AddScarfBone(bonelist, 1);
-            AddScarfBone(bonelist, 2);
-            AddScarfBone(bonelist, 3);
-            AddScarfBone(bonelist, 4);
-            AddScarfBone(bonelist, 5);
-            AddScarfBone(bonelist, 6);
+            for (int i = 0; i < Settings.ScarfSegments; i++)
+            {
+                AddScarfBone(bonelist, 1 + i);
+            }
             ScarfBones = bonelist.ToArray();
         }
         private static void AddScarfBone(List<Bone> bones, int index)

@@ -698,5 +698,10 @@ namespace linerider
         {
             Camera.InvalidateFrame(frame);
         }
+
+        public void UpdateScarf(string selectedScarf)
+        {
+            _renderer.UpdateScarf(selectedScarf);
+        }
     }
 }

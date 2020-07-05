@@ -95,6 +95,7 @@ namespace linerider
             Track = new Editor();
             VSync = VSyncMode.On;
             Context.ErrorChecking = false;
+            Track.UpdateScarf(Settings.SelectedScarf);
             WindowBorder = WindowBorder.Resizable;
             RenderFrame += (o, e) => { Render(); };
             UpdateFrame += (o, e) => { GameUpdate(); };
@@ -159,10 +160,10 @@ namespace linerider
                     GameRenderer.DbgDrawGrid();
 #endif
                 Track.Render(blend);
-#if debugcamera
+//#if debugcamera
                 if (this.Keyboard.GetState().IsKeyDown(Key.C))
                     GameRenderer.DbgDrawCamera();
-#endif
+//#endif
                 Canvas.RenderCanvas();
                 MSAABuffer.End();
 
@@ -301,7 +302,9 @@ namespace linerider
             _input = new Gwen.Input.OpenTK(this);
             _input.Initialize(Canvas);
             Canvas.ShouldDrawBackground = false;
-            Models.LoadModels();
+
+            try   { Models.LoadModels(Settings.SelectedBoshSkin); }
+            catch { Models.LoadModels(); }
 
             AddCursor("pencil", GameResources.cursor_pencil, 6, 25);
             AddCursor("line", GameResources.cursor_line, 11, 11);

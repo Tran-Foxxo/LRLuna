@@ -40,6 +40,8 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Game\GameTrigger.cs" />
+    <Compile Include="Game\TriggerType.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="GameCanvas.cs" />
     <Compile Include="Editor.cs" />
@@ -172,6 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UI\Dialogs\Timer.cs" />
+    <Compile Include="UI\Dialogs\TriggerWindow.cs" />
     <Compile Include="UI\PlatformImpl.cs" />
     <Compile Include="UI\Hotkey.cs" />
     <Compile Include="UI\Fonts.cs" />

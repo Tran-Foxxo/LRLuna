@@ -18,6 +18,8 @@
 using OpenTK;
 using linerider.Utils;
 using linerider.Rendering;
+using System.Drawing;
+using System.Collections.Generic;
 
 namespace linerider
 {
@@ -67,6 +69,21 @@ namespace linerider
 
             BasicBodyTexture = StaticRenderer.LoadTexture(GameResources.basicbody_img);
             BasicBodyDeadTexture = StaticRenderer.LoadTexture(GameResources.basicbodydead_img);
+        }
+        public static void LoadModels(string folder)
+        {
+            if (folder.Equals("*default*")) { LoadModels(); return; }
+
+            string riderLocation = Program.UserDirectory + "\\Riders\\" + folder + "\\";
+
+            BodyTexture = StaticRenderer.LoadTexture(new Bitmap(riderLocation+"body.png"));
+            BodyDeadTexture = StaticRenderer.LoadTexture(new Bitmap(riderLocation + "bodydead.png"));
+
+            SledTexture = StaticRenderer.LoadTexture(new Bitmap(riderLocation + "sled.png"));
+            BrokenSledTexture = StaticRenderer.LoadTexture(new Bitmap(riderLocation + "brokensled.png"));
+
+            ArmTexture = StaticRenderer.LoadTexture(new Bitmap(riderLocation + "arm.png"));
+            LegTexture = StaticRenderer.LoadTexture(new Bitmap(riderLocation + "leg.png"));
         }
     }
 }

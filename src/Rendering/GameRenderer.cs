@@ -150,7 +150,9 @@ namespace linerider.Rendering
         public static void DbgDrawCamera()
         {
             GL.PushMatrix();
-            var center = new Vector2(Game.RenderSize.Width / 2, Game.RenderSize.Height / 2);
+            Vector2d offset = Game.Track.Timeline.GetFrameCameraOffset(Game.Track.Offset);
+            var center = new Vector2(Game.RenderSize.Width / 2, Game.RenderSize.Height / 2) - (Vector2)offset;
+
             var rect = Game.Track.Camera.getclamp(1, Game.RenderSize.Width, Game.RenderSize.Height);
 
             rect.Width *= Game.Track.Zoom;

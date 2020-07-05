@@ -43,6 +43,8 @@ namespace linerider.Game
         protected Timeline _timeline;
         protected int _currentframe = 0;
         protected float _zoom = 1;
+        protected Vector2d _cameraoffset = Vector2d.Zero;
+
         public ICamera()
         {
             _frames.Add(new CameraEntry(Vector2d.Zero));
@@ -203,7 +205,7 @@ namespace linerider.Game
         }
         protected Vector2d CalculateOffset(int frame)
         {
-            var box = CameraBoundingBox.Create(Vector2d.Zero, _zoom);
+            var box = CameraBoundingBox.Create(Vector2d.Zero, _zoom, Vector2d.Zero);
             if (_prevframe != -1 &&
                 _prevframe <= frame &&
                 (frame - _prevframe) <= 1)

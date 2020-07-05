@@ -8,6 +8,7 @@ using linerider.Drawing;
 using linerider.Utils;
 using linerider.Game;
 using System.Diagnostics;
+using System.IO;
 
 namespace linerider.Rendering
 {
@@ -15,6 +16,7 @@ namespace linerider.Rendering
     {
         private AutoArray<RiderVertex> Array = new AutoArray<RiderVertex>(500);
         public float Scale = 1.0f;
+        public List<Color> scarfColorList;
         private Shader _shader;
         private GLBuffer<RiderVertex> _vbo;
         private LineVAO _lines = new LineVAO();
@@ -93,7 +95,7 @@ namespace linerider.Rendering
                             GameDrawingMatrix.ScreenCoordD(rider.Body[bones[broken].joint1].Location),
                             GameDrawingMatrix.ScreenCoordD(rider.Body[bones[broken].joint2].Location),
                             breakcolor,
-                            GameDrawingMatrix.Scale  / 4);
+                            GameDrawingMatrix.Scale / 4);
                     }
                 }
                 //the first break is most important so we give it a better color, assuming its not just a fakie death
@@ -123,6 +125,56 @@ namespace linerider.Rendering
                     GameDrawingMatrix.Scale / 4);
             }
         }
+
+        internal void UpdateScarf(string selectedScarf)
+        {
+            scarfColorList = new List<System.Drawing.Color>();
+            string scarvesPath = Program.UserDirectory + "\\Scarves";
+            string scarfLocation = scarvesPath + "\\" + selectedScarf;
+            Color clear = Color.FromArgb(0);
+            if (!selectedScarf.Equals("*default*")) 
+            { 
+                try
+                {
+                    string[] lines = File.ReadAllLines(scarfLocation);
+
+                    if (lines[0].Equals("#LRTran Scarf File"))
+                    {
+                        for (int i = 1; i < lines.Length; i++)
+                        {
+                            Debug.WriteLine(lines[i]);
+                            int color = Convert.ToInt32(lines[i].Substring(0, lines[i].IndexOf(",")), 16);
+                            int opacity = Convert.ToByte(lines[i].Substring(lines[i].IndexOf(" ") + 1), 16);
+                            scarfColorList.Add(Color.FromArgb(opacity, Color.FromArgb(color)));
+                        }
+
+                    }
+                }
+                catch
+                {
+                    scarfColorList.Add(Color.FromArgb(255, Color.FromArgb(0x94fbab)));
+                    scarfColorList.Add(Color.FromArgb(127, Color.FromArgb(0xbcfbdf)));
+                }
+            }
+            else
+            {
+                scarfColorList.Add(Color.FromArgb(255, Color.FromArgb(0x94fbab)));
+                scarfColorList.Add(Color.FromArgb(127, Color.FromArgb(0xbcfbdf)));
+            }
+            if (Settings.multiScarfAmount > 1)
+            {
+                while (scarfColorList.Count < Settings.multiScarfAmount * Settings.multiScarfSegments)
+                {
+                    scarfColorList.AddRange(scarfColorList);
+                }
+
+                for (int i = 1; i < Settings.multiScarfAmount; i++)
+                {
+                    scarfColorList.Insert(((i * Settings.multiScarfSegments)) - i, clear);
+                }
+            }
+        }
+
         public void DrawRider(float opacity, Rider rider, bool scarf = false)
         {
             if (scarf)
@@ -427,12 +479,21 @@ namespace linerider.Rendering
         }
         private void DrawScarf(Line[] lines, float opacity)
         {
-            var c = Utility.ColorToRGBA_LE(0x94fbab, (byte)(255 * opacity));
-            var alt = Utility.ColorToRGBA_LE(0xbcfbdf, (byte)(127 * opacity));
+            int scarfPart;
+            int currentColor;
+            if (scarfColorList == null || scarfColorList.Count == 0) //If for some reason this is empty use the default LRL colors
+            {
+                scarfColorList = new List<Color>();
+                scarfColorList.Add(Color.FromArgb((int)(255 * opacity), Color.FromArgb(0x94fbab)));
+                scarfColorList.Add(Color.FromArgb((int)(127 * opacity), Color.FromArgb(0xbcfbdf)));
+            }
+
             List<Vector2> altvectors = new List<Vector2>();
             for (int i = 0; i < lines.Length; i += 2)
             {
-                var verts = DrawLine(lines[i].Position, lines[i].Position2, c, 2);
+                scarfPart = (i % scarfColorList.Count);
+                currentColor = Utility.ColorToRGBA_LE(Color.FromArgb((int)(scarfColorList[scarfPart].A * opacity), scarfColorList[scarfPart]));
+                var verts = DrawLine(lines[i].Position, lines[i].Position2, currentColor, 2);
 
                 if (i != 0)
                 {
@@ -444,11 +505,14 @@ namespace linerider.Rendering
             }
             for (int i = 0; i < altvectors.Count - 4; i += 4)
             {
+                scarfPart = (((i+2)/2) % scarfColorList.Count);
+                currentColor = Utility.ColorToRGBA_LE(Color.FromArgb((int)(scarfColorList[scarfPart].A * opacity), scarfColorList[scarfPart]));
+
                 var verts = new RiderVertex[] {
-                    RiderVertex.NoTexture(altvectors[i + 0],alt),
-                    RiderVertex.NoTexture(altvectors[i + 1],alt),
-                    RiderVertex.NoTexture(altvectors[i + 2],alt),
-                    RiderVertex.NoTexture(altvectors[i + 3],alt)
+                    RiderVertex.NoTexture(altvectors[i + 0],currentColor),
+                    RiderVertex.NoTexture(altvectors[i + 1],currentColor),
+                    RiderVertex.NoTexture(altvectors[i + 2],currentColor),
+                    RiderVertex.NoTexture(altvectors[i + 3],currentColor)
                 };
                 Array.Add(verts[0]);
                 Array.Add(verts[1]);

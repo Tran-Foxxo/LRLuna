@@ -126,6 +126,22 @@ namespace linerider
 
         //end
 
+        //scarf options
+
+        public static int ScarfSegments;
+        public static string SelectedScarf;
+        public static int multiScarfAmount;
+        public static int multiScarfSegments;
+
+        //end
+
+        //Rider options
+
+        public static string SelectedBoshSkin;
+        public static bool CustomScarfOnPng;
+
+         //end
+
         //Timer
 
         public static float MinutesElapsed; 
@@ -256,8 +272,8 @@ namespace linerider
             ConfigTOnionSkinning = false;
             ConfigTMomentumVectors = false;
             ToggleConfig = false;
-
-        PointVar = 0;
+            
+            PointVar = 0;
             OffsledSledCam = false;
             OffsledVar = false;
 
@@ -284,6 +300,14 @@ namespace linerider
             SceneryColorRed = 0;
             SceneryColorGreen = 204;
             SceneryColorBlue = 0;
+
+            ScarfSegments = 6;
+            SelectedScarf = "*default*";
+            multiScarfAmount = 1;
+            multiScarfSegments = 6;
+
+            SelectedBoshSkin = "*default*";
+            CustomScarfOnPng = false;
         }
         public static void ResetKeybindings()
         {
@@ -570,6 +594,15 @@ namespace linerider
             LoadFloat(GetSetting(lines, nameof(OnionSkinningFront)), ref OnionSkinningFront);
             LoadFloat(GetSetting(lines, nameof(OnionSkinningBack)), ref OnionSkinningBack);
             var lasttrack = GetSetting(lines, nameof(LastSelectedTrack));
+
+            SelectedScarf = GetSetting(lines, nameof(SelectedScarf));
+            LoadInt(GetSetting(lines, nameof(ScarfSegments)), ref ScarfSegments);
+            LoadInt(GetSetting(lines, nameof(multiScarfSegments)), ref multiScarfSegments);
+            LoadInt(GetSetting(lines, nameof(multiScarfAmount)), ref multiScarfAmount);
+
+            SelectedBoshSkin = GetSetting(lines, nameof(SelectedBoshSkin));
+            LoadBool(GetSetting(lines, nameof(CustomScarfOnPng)), ref CustomScarfOnPng);
+
             if (File.Exists(lasttrack) && lasttrack.StartsWith(Constants.TracksDirectory))
             {
                 LastSelectedTrack = lasttrack;
@@ -671,6 +704,15 @@ namespace linerider
             config += "\r\n" + MakeSetting(nameof(Editor.ShowLineID), Editor.ShowLineID.ToString(Program.Culture));
             config += "\r\n" + MakeSetting(nameof(OnionSkinningFront), OnionSkinningFront.ToString(Program.Culture));
             config += "\r\n" + MakeSetting(nameof(OnionSkinningBack), OnionSkinningBack.ToString(Program.Culture));
+
+            config += "\r\n" + MakeSetting(nameof(SelectedScarf), SelectedScarf);
+            config += "\r\n" + MakeSetting(nameof(ScarfSegments), ScarfSegments.ToString(Program.Culture));
+            config += "\r\n" + MakeSetting(nameof(multiScarfAmount), multiScarfAmount.ToString(Program.Culture));
+            config += "\r\n" + MakeSetting(nameof(multiScarfSegments), multiScarfSegments.ToString(Program.Culture));
+
+            config += "\r\n" + MakeSetting(nameof(SelectedBoshSkin), SelectedBoshSkin);
+            config += "\r\n" + MakeSetting(nameof(CustomScarfOnPng), CustomScarfOnPng.ToString(Program.Culture));
+
             foreach (var binds in Keybinds)
             {
                 foreach (var bind in binds.Value)

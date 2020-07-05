@@ -37,6 +37,7 @@ namespace linerider.Game
             public int TriggerLineID;
             public int TriggerHitFrame;
             public float Zoom;
+            public Vector2d CameraOffset;
         }
         private HitTestManager _hittest = new HitTestManager();
         private ResourceSync _framesync = new ResourceSync();
@@ -179,6 +180,18 @@ namespace linerider.Game
             }
         }
         /// <summary>
+        /// Gets an up to date rider state for the frame, recomputing if
+        /// necessary
+        /// </summary>
+        public Vector2d GetFrameCameraOffset(int frame)
+        {
+            using (_framesync.AcquireWrite())
+            {
+                UnsafeEnsureFrameValid(frame);
+                return _frames[frame].CameraOffset;
+            }
+        }
+        /// <summary>
         /// Gets an up to date array of rider states, recomputing if necessary
         /// </summary>
         public Rider[] GetFrames(int framestart, int count)
@@ -208,6 +221,16 @@ namespace linerider.Game
                 }
             }
         }
+        public void TriggerChanged(GameTrigger oldtrigger, GameTrigger newtrigger)
+        {
+            using (changesync.AcquireWrite())
+            {
+                var earliest = Math.Min(oldtrigger.Start, newtrigger.Start);
+                _first_invalid_frame = Math.Max(
+                    1,
+                    Math.Min(earliest, _first_invalid_frame));
+            }
+        }
         private void UnsafeEnsureFrameValid(int frame)
         {
             int start;
@@ -224,6 +247,27 @@ namespace linerider.Game
             {
                 ThreadUnsafeRunFrames(start, count);
             }
+        }
+        private bool GetTriggersForFrame(GameTrigger[] triggers, int frame)
+        {
+            bool foundtrigger = false;
+            for (int i = 0; i < triggers.Length; i++)
+            {
+                triggers[i] = null;
+            }
+            foreach (var trigger in _track.Triggers)
+            {
+                if (trigger.Start <= frame && trigger.End >= frame)
+                {
+                    int index = (int)trigger.TriggerType;
+                    var prev = triggers[index];
+                    if (!(prev?.Start > trigger.Start))
+                        triggers[index] = trigger;
+
+                    foundtrigger = true;
+                }
+            }
+            return foundtrigger;
         }
         /// <summary>
         /// The meat of the recompute engine, updating hit test and the
@@ -249,6 +293,7 @@ namespace linerider.Game
             using (var sync = changesync.AcquireRead())
             {
                 _hittest.MarkFirstInvalid(start);
+                GameTrigger[] triggers = new GameTrigger[GameTrigger.TriggerTypes];
                 for (int i = 0; i < count; i++)
                 {
                     int currentframe = start + i;
@@ -276,6 +321,26 @@ namespace linerider.Game
                             current.TriggerHitFrame = -1;
                         }
                     }
+
+                    if (GetTriggersForFrame(triggers, currentframe))
+                    {
+                        var zoomtrigger = triggers[(int)TriggerType.Zoom];
+                        if (zoomtrigger != null)
+                        {
+                            var delta = currentframe - zoomtrigger.Start;
+                            zoomtrigger.ActivateZoom(delta, ref current.Zoom);
+                        }
+
+                        var cameraoffsettrigger = triggers[(int)TriggerType.CameraOffset];
+                        if (cameraoffsettrigger != null)
+                        {
+                            var delta = currentframe - zoomtrigger.Start;
+                            cameraoffsettrigger.ActivateCameraOffset(delta, ref current.CameraOffset);
+                        }
+                    }
+
+                    //current.CameraOffset = new Vector2d(Program.Random.Next(-50, 50), Program.Random.Next(-50, 50));
+
                     steps[i] = current;
                     collisionlist.Add(collisions);
 

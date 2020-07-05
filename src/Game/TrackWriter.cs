@@ -68,6 +68,21 @@ namespace linerider
                 return _editorcells;
             }
         }
+        public List<GameTrigger> Triggers
+        {
+            get
+            {
+                if (_disposed)
+                    throw new ObjectDisposedException("TrackWriter");
+                return _track.Triggers;
+            }
+            set
+            {
+                if (_disposed)
+                    throw new ObjectDisposedException("TrackWriter");
+                _track.Triggers = value;
+            }
+        }   
         protected TrackWriter(ResourceSync.ResourceLock sync, Track track)
         : base(sync, track)
         {

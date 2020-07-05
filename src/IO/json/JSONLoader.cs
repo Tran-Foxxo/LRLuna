@@ -94,6 +94,33 @@ namespace linerider.IO
                         }
                     }
                 }
+
+                if (trackobj.gameTriggers != null)
+                {
+                    foreach (var t in trackobj.gameTriggers)
+                    {
+                        if (t.start < 1 || t.end < 1 || t.end < t.start)
+                            throw new TrackIO.TrackLoadException(
+                                "Trigger timing was outside of range");
+                        TriggerType ttype;
+                        try
+                        {
+                            ttype = (TriggerType)t.triggerType;
+                        }
+                        catch
+                        {
+                            throw new TrackIO.TrackLoadException(
+                                "Unsupported trigger type " + t.triggerType);
+                        }
+                        ret.Triggers.Add(new GameTrigger()
+                        {
+                            Start = t.start,
+                            End = t.end,
+                            TriggerType = ttype,
+                            ZoomTarget = t.zoomTarget,
+                        });
+                    }
+                }
             }
             return ret;
         }

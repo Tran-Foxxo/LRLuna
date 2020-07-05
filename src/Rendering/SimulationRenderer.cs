@@ -12,6 +12,7 @@ using Gwen.Controls;
 using linerider.Tools;
 using linerider.Audio;
 using linerider.Utils;
+using System.Drawing;
 
 namespace linerider.Rendering
 {
@@ -130,6 +131,11 @@ namespace linerider.Rendering
         public void RefreshTrack(Track track)
         {
             _trackrenderer.InitializeTrack(track);
+        }
+
+        internal void UpdateScarf(string selectedScarf)
+        {
+            _riderrenderer.UpdateScarf(selectedScarf);
         }
     }
 }

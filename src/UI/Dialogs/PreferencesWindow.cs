@@ -609,7 +609,97 @@ namespace linerider.UI
             };
             predictive.Tooltip = "This is the camera that was added in 1.03\nIt moves relative to the future of the track";
         }
-        private void PopulateEditor(ControlBase parent)
+        private void PopulateRider(ControlBase parent)
+        {
+            var scarfSettingPanel = GwenHelper.CreateHeaderPanel(parent, "Scarf Settings");
+            var riderSettingPanel = GwenHelper.CreateHeaderPanel(parent, "Rider Settings");
+
+            ComboBox scarfCombobox = GwenHelper.CreateLabeledCombobox(scarfSettingPanel, "Selected Scarf:");
+            scarfCombobox.AddItem("LRLuna Default", "*default*", "*default*");
+            scarfCombobox.Width = 215;
+            string[] scarfPaths = Directory.GetFiles(Program.UserDirectory + "\\Scarves");
+            for (int i = 0; i < scarfPaths.Length; i++)
+            {
+                string scarfNames = Path.GetFileName(scarfPaths[i]);
+                if ((scarfNames.EndsWith(".txt", true, CultureInfo.CurrentCulture)) || (scarfNames.EndsWith(".scarf", true, CultureInfo.CurrentCulture)))
+                {
+                    scarfCombobox.AddItem(scarfNames, scarfNames, scarfNames);
+                }
+            }
+            scarfCombobox.SelectByUserData(Settings.SelectedScarf);
+            scarfCombobox.ItemSelected += (o, e) =>
+            {
+                Settings.SelectedScarf = (String)e.SelectedItem.UserData;
+                Settings.Save();
+                _editor.UpdateScarf(Settings.SelectedScarf);
+            };
+
+            var scarfSegments = new Spinner(parent)
+            {
+                Min = 1,
+                Max = int.MaxValue - 1,
+                Value = Settings.ScarfSegments, 
+            };
+            var scarfSegmentsLabel = GwenHelper.CreateLabeledControl(scarfSettingPanel, "Scarf Segments (Needs Restart)", scarfSegments);
+            scarfSegments.ValueChanged += (o, e) =>
+            {
+                Settings.ScarfSegments = (int)((Spinner)o).Value;
+                Settings.Save();
+            };
+
+            var multiScarfAmount = new Spinner(parent)
+            {
+                Min = 1,
+                Max = int.MaxValue - 1,
+                Value = Settings.multiScarfAmount,
+            };
+            multiScarfAmount.ValueChanged += (o, e) =>
+            {
+                Settings.multiScarfAmount = (int)((Spinner)o).Value;
+                Settings.Save();
+                _editor.InvalidateRenderRider();
+            };
+            GwenHelper.CreateLabeledControl(scarfSettingPanel, "Multi-Scarf Amount (Needs Restart)", multiScarfAmount);
+
+            var multiScarfSegments = new Spinner(parent)
+            {
+                Min = 1,
+                Max = int.MaxValue - 1,
+                Value = Settings.multiScarfSegments,
+            };
+            multiScarfSegments.ValueChanged += (o, e) =>
+            {
+                Settings.multiScarfSegments = (int)((Spinner)o).Value;
+                Settings.Save();
+                _editor.InvalidateRenderRider();
+            };
+            GwenHelper.CreateLabeledControl(scarfSettingPanel, "Multi-Scarf Segments (Needs Restart)", multiScarfSegments);
+
+            var showid = GwenHelper.AddCheckbox(scarfSettingPanel, "Apply Custom Scarf to Rider Image", Settings.CustomScarfOnPng, (o, e) =>
+            {
+                Settings.CustomScarfOnPng = ((Checkbox)o).IsChecked;
+                Settings.Save();
+                Models.LoadModels(Settings.SelectedBoshSkin);
+            });
+            
+            ComboBox boshSkinCombobox = GwenHelper.CreateLabeledCombobox(riderSettingPanel, "Selected Rider:");
+            boshSkinCombobox.AddItem("LRLuna Default", "*default*", "*default*");
+            boshSkinCombobox.Width = 217;
+            string[] riderPaths = Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/LRA/Riders");
+            for (int i = 0; i < riderPaths.Length; i++)
+            {
+                String riderNames = Path.GetFileName(riderPaths[i]);
+                boshSkinCombobox.AddItem(riderNames, riderNames, riderNames);
+            }
+            boshSkinCombobox.SelectByUserData(Settings.SelectedBoshSkin);
+            boshSkinCombobox.ItemSelected += (o, e) =>
+            {
+                Settings.SelectedBoshSkin = (String)e.SelectedItem.UserData;
+                Settings.Save();
+                Models.LoadModels(Settings.SelectedBoshSkin);
+            };
+        }
+            private void PopulateEditor(ControlBase parent)
         {
             Panel advancedtools = GwenHelper.CreateHeaderPanel(parent, "Advanced Visualization");
 
@@ -881,6 +971,8 @@ namespace linerider.UI
             PopulateSceneryLine(page);
             page = AddPage(cat, "Camera");
             PopulateCamera(page);
+            page = AddPage(cat, "Rider");
+            PopulateRider(page);
             cat = _prefcontainer.Add("Application");
             page = AddPage(cat, "Audio");
             PopulateAudio(page);
