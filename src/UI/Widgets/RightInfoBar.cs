@@ -97,6 +97,19 @@ namespace linerider.UI
                 },
                 Margin = new Margin(0, 0, 5, 0),
                 UserData = 0.0,
+            }; 
+            var cameraoffsetlabel = new TrackLabel(this)
+            {
+                Dock = Dock.Top,
+                Alignment = Pos.Right | Pos.CenterV,
+                TextRequest = (o, e) =>
+                {
+                    var x = string.Format("{0:N2}", Math.Round(_editor.CameraOffset.X, 2));
+                    var y = string.Format("{0:N2}", Math.Round(_editor.CameraOffset.Y, 2));
+                    return x+","+y;
+                },
+                Margin = new Margin(0, 0, 5, 0),
+                UserData = 0.0,
             };
             _playbackratelabel = new TrackLabel(this)
             {

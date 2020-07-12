@@ -71,7 +71,8 @@ namespace linerider
             => Track.Camera.GetViewport(
                 Track.Zoom,
                 RenderSize.Width,
-                RenderSize.Height).Vector;
+                RenderSize.Height,
+                Track.CameraOffset / Track.Zoom).Vector;
 
         public Editor Track { get; }
         private bool _uicursor = false;

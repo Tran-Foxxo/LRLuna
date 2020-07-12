@@ -334,12 +334,11 @@ namespace linerider.Game
                         var cameraoffsettrigger = triggers[(int)TriggerType.CameraOffset];
                         if (cameraoffsettrigger != null)
                         {
-                            var delta = currentframe - zoomtrigger.Start;
-                            cameraoffsettrigger.ActivateCameraOffset(delta, ref current.CameraOffset);
+                            var delta = currentframe - cameraoffsettrigger.Start;
+                            cameraoffsettrigger.ActivateCameraOffset(delta, ref current.CameraOffset,GetFrameCameraOffset(cameraoffsettrigger.Start - 1));
                         }
                     }
-
-                    //current.CameraOffset = new Vector2d(Program.Random.Next(-50, 50), Program.Random.Next(-50, 50));
+                    //current.CameraOffset = new Vector2d(-1920/4,0); //Set it to a value I'd know so it's easier to check
 
                     steps[i] = current;
                     collisionlist.Add(collisions);

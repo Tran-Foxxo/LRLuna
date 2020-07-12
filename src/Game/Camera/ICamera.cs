@@ -155,9 +155,14 @@ namespace linerider.Game
         public DoubleRect GetViewport(
             float zoom,
             int maxwidth,
-            int maxheight)
+            int maxheight,
+            Vector2d cameraoffsetpixels)
         {
             var center = GetCenter();
+
+            cameraoffsetpixels.Y = -cameraoffsetpixels.Y;
+            center = center - cameraoffsetpixels;
+
             Vector2d size = new Vector2d(maxwidth / zoom, maxheight / zoom);
             var origin = center - (size / 2);
             return new DoubleRect(origin, size);
@@ -167,9 +172,10 @@ namespace linerider.Game
             SetFrameCenter(GetCenter());
             InvalidateFrame(1);
         }
-        public DoubleRect getclamp(float zoom, int width, int height)
+        public DoubleRect getclamp(float zoom, int width, int height, Vector2d offset)
         {
-            var ret = GetViewport(zoom, width, height);
+            offset.Y = -offset.Y; //Flip Y value so it's up, not down
+            var ret = GetViewport(zoom, width, height, offset);
             var pos = ret.Vector + (ret.Size / 2);
             var b = new CameraBoundingBox(pos);
             if (Settings.SmoothCamera || Settings.RoundLegacyCamera)
@@ -205,7 +211,7 @@ namespace linerider.Game
         }
         protected Vector2d CalculateOffset(int frame)
         {
-            var box = CameraBoundingBox.Create(Vector2d.Zero, _zoom, Vector2d.Zero);
+            var box = CameraBoundingBox.Create(Vector2d.Zero, _zoom);
             if (_prevframe != -1 &&
                 _prevframe <= frame &&
                 (frame - _prevframe) <= 1)

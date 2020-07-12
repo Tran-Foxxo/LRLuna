@@ -16,7 +16,19 @@ namespace linerider.IO.json
             public int start;
             public int end;
             public int triggerType;
-            public float zoomTarget = 4;
+            //Zoom
+            public float zoomTarget;
+            //BG
+            public int backgroundRed;
+            public int backgroundGreen;
+            public int backgroundBlue;
+            //Line Color
+            public int lineRed;
+            public int lineGreen;
+            public int lineBlue;
+            //Camera Offset
+            public float xOffsetInPixels;
+            public float yOffsetInPixels;
         }
         public class point_json
         {

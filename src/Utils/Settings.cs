@@ -78,6 +78,12 @@ namespace linerider
         public static int LineColorRed;
         public static int LineColorGreen;
         public static int LineColorBlue;
+        public static int SceneryLineColorRed;
+        public static int SceneryLineColorGreen;
+        public static int SceneryLineColorBlue;
+        public static int AccelerationLineColorRed;
+        public static int AccelerationLineColorGreen;
+        public static int AccelerationLineColorBlue;
 
         public static bool MainLine;
 

@@ -107,6 +107,7 @@ namespace linerider
         }
         private void CreateUI()
         {
+            //DrawDebugOutlines = true;
             _usertooltip = new Tooltip(this) { IsHidden = true };
             _loadingsprite = new LoadingSprite(this)
             {
@@ -118,7 +119,7 @@ namespace linerider
                 },
             };
             _loadingsprite.SetImage(GameResources.loading);
-            _toolbar = new Toolbar(this, game.Track) { Y = 0 };
+           
             ZoomSlider = new ZoomSlider(this, game.Track);
             _timeline = new TimelineWidget(this, game.Track);
             _topcontainer = new Panel(this)
@@ -130,6 +131,7 @@ namespace linerider
             };
             _infobar = new RightInfoBar(_topcontainer, game.Track);
             _trackinfobar = new TrackInfoBar(_topcontainer, game.Track);
+            _toolbar = new Toolbar(this, game.Track) { Y = 0 };
         }
         private string GetTitle()
         {

@@ -51,6 +51,7 @@ namespace linerider
         private float _savedzoom;
         private bool _hasstopped = true;
         private float _zoom = Constants.DefaultZoom;
+        private Vector2d _cameraoffset = Vector2d.Zero;
         private EditorGrid _cells = new EditorGrid();
         private bool _invalidated = false;
 
@@ -71,6 +72,19 @@ namespace linerider
             set
             {
                 _zoom = (float)MathHelper.Clamp(value, Constants.MinimumZoom, Settings.Local.MaxZoom);
+                Invalidate();
+            }
+        }
+        public Vector2d CameraOffset
+        {
+            get
+            {
+                return Timeline.GetFrameCameraOffset(Offset);
+            }
+            set
+            {
+                _cameraoffset = value;
+                _cameraoffset = Timeline.GetFrameCameraOffset(Offset);
                 Invalidate();
             }
         }

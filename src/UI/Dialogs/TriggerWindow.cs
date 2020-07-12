@@ -17,12 +17,18 @@ namespace linerider.UI
         private const int FramePadding = 0;
         private HorizontalSlider _slider;
         private ListBox _lbtriggers;
-        private ControlBase _zoomoptions;
-
+        private Panel _triggeroptions;
         private Spinner _spinnerStart;
         private Spinner _spinnerDuration;
         private ComboBox _triggertype;
+
+        private ControlBase _zoomoptions;
         private Spinner _zoomtarget;
+
+        private ControlBase _cameraoffsetoptions;
+        private Spinner _camerapixeloffsetx;
+        private Spinner _camerapixeloffsety;
+
         private int SliderFrames
         {
             get
@@ -174,9 +180,63 @@ namespace linerider.UI
             GwenHelper.CreateLabeledControl(
                 _zoomoptions, "Zoom Target:", _zoomtarget).Dock = Dock.Bottom;
         }
+        private void SetupCameraOffset()
+        {
+            _cameraoffsetoptions = new ControlBase(null)
+            {
+                Margin = new Margin(0, 0, 0, 0),
+                Dock = Dock.Fill
+            };
+            _camerapixeloffsetx = new Spinner(null)
+            {
+                Min = int.MinValue,
+                Max = int.MaxValue,
+                Value = 0,
+            };
+            _camerapixeloffsety = new Spinner(null)
+            {
+                Min = int.MinValue,
+                Max = int.MaxValue,
+                Value = 0,
+            };
+            _camerapixeloffsetx.ValueChanged += (o, e) =>
+            {
+                if (_selecting_trigger)
+                    return;
+                using (var trk = _editor.CreateTrackWriter())
+                {
+                    var trigger = BeginModifyTrigger(trk);
+                    if (trigger != null)
+                    {
+                        trigger.XOffsetInPixels = (float)_camerapixeloffsetx.Value;
+                        trigger.YOffsetInPixels = (float)_camerapixeloffsety.Value;
+                        EndModifyTrigger(trigger, trk);
+                    }
+                }
+            };
+            _camerapixeloffsety.ValueChanged += (o, e) =>
+            {
+                if (_selecting_trigger)
+                    return;
+                using (var trk = _editor.CreateTrackWriter())
+                {
+                    var trigger = BeginModifyTrigger(trk);
+                    if (trigger != null)
+                    {
+                        trigger.XOffsetInPixels = (float)_camerapixeloffsetx.Value;
+                        trigger.YOffsetInPixels = (float)_camerapixeloffsety.Value;
+                        EndModifyTrigger(trigger, trk);
+                    }
+                }
+            };
+            GwenHelper.CreateLabeledControl(_cameraoffsetoptions, "Y Offset in Pixels:", _camerapixeloffsety).Dock = Dock.Bottom;
+            GwenHelper.CreateLabeledControl(_cameraoffsetoptions, "X Offset in Pixels:", _camerapixeloffsetx).Dock = Dock.Bottom;
+        }
         private void SetupRight()
         {
             SetupZoom();
+            SetupCameraOffset();
+            
             ControlBase rightcontainer = new ControlBase(this)
             {
                 Margin = new Margin(0, 0, 0, 0),
@@ -221,14 +281,14 @@ namespace linerider.UI
                 CancelChange();
                 Close();
             };
-            Panel triggeroptions = new Panel(rightcontainer)
+            _triggeroptions = new Panel(rightcontainer)
             {
                 Dock = Dock.Fill,
                 Padding = Padding.Four,
                 Margin = new Margin(0, 0, 0, 5)
             };
 
-            _zoomoptions.Parent = triggeroptions;
+            _zoomoptions.Parent = _triggeroptions;
             _triggertype = GwenHelper.CreateLabeledCombobox(
                 rightcontainer, "Trigger Type:");
             _triggertype.Dock = Dock.Bottom;
@@ -236,10 +296,16 @@ namespace linerider.UI
             var zoom = _triggertype.AddItem("Zoom", "", TriggerType.Zoom);
             zoom.Selected += (o, e) =>
             {
-                triggeroptions.Children.Clear();
-                _zoomoptions.Parent = triggeroptions;
+                _triggeroptions.Children.Clear();
+                _zoomoptions.Parent = _triggeroptions;
             };
-            _triggertype.SelectedItem = zoom;
+            var cameraoffset = _triggertype.AddItem("Camera Offset", "", TriggerType.CameraOffset);
+            cameraoffset.Selected += (o, e) =>
+            {
+                _triggeroptions.Children.Clear();
+                _cameraoffsetoptions.Parent = _triggeroptions;
+            };
+            _triggertype.SelectByUserData(TriggerType.Zoom);
         }
         private void SetupLeft()
         {
@@ -288,13 +354,40 @@ namespace linerider.UI
             var delete = topcontainer.FindChildByName("btndelete");
             add.Clicked += (o, e) =>
             {
-                var trigger = new GameTrigger()
+                GameTrigger trigger;
+
+                switch (_triggertype.SelectedItem.UserData)
                 {
-                    TriggerType = TriggerType.Zoom,
-                    Start = _editor.Offset,
-                    End = _editor.Offset + 40,
-                    ZoomTarget = 4,
-                };
+                    case TriggerType.Zoom:
+                        trigger = new GameTrigger()
+                        {
+                            TriggerType = TriggerType.Zoom,
+                            Start = _editor.Offset,
+                            End = _editor.Offset + 40,
+                            ZoomTarget = (float)_zoomtarget.Value,
+                        };
+                        break;
+                    case TriggerType.CameraOffset:
+                        trigger = new GameTrigger()
+                        {
+                            TriggerType = TriggerType.CameraOffset,
+                            Start = _editor.Offset,
+                            End = _editor.Offset + 40,
+                            XOffsetInPixels = (float)_camerapixeloffsetx.Value,
+                            YOffsetInPixels = (float)_camerapixeloffsety.Value,
+                        };
+                        break;
+                    default: //Make a standard zoom trigger if something goes wrong
+                        trigger = new GameTrigger()
+                        {
+                            TriggerType = TriggerType.Zoom,
+                            Start = _editor.Offset,
+                            End = _editor.Offset + 40,
+                            ZoomTarget = 4,
+                        };
+                        break;
+                }
+                
 
                 _changemade = true;
                 using (var trk = _editor.CreateTrackWriter())
@@ -348,7 +441,7 @@ namespace linerider.UI
             {
                 OnlyWholeNumbers = true,
                 Min = 0,
-                Max = 40 * 60 * 2,//2 minutes is enough for a zoom trigger, you crazy nuts.
+                Max = double.MaxValue,//Yeah, I am crazy nuts.  I want more than 2 minutes.
                 Value = 0
                 //TODO set values
             };
@@ -407,9 +500,22 @@ namespace linerider.UI
                 _spinnerStart.Value = trigger.Start;
                 _spinnerDuration.Value = trigger.End - trigger.Start;
                 _triggertype.SelectByUserData(trigger.TriggerType);
-                if (trigger.TriggerType == TriggerType.Zoom)
+                
+                switch (trigger.TriggerType)
                 {
-                    _zoomtarget.Value = trigger.ZoomTarget;
+                    case TriggerType.Zoom:
+                        _triggeroptions.Children.Clear();
+                        _zoomoptions.Parent = _triggeroptions;
+
+                        _zoomtarget.Value = trigger.ZoomTarget;
+                        break;
+                    case TriggerType.CameraOffset:
+                        _triggeroptions.Children.Clear();
+                        _cameraoffsetoptions.Parent = _triggeroptions;
+
+                        _camerapixeloffsetx.Value = trigger.XOffsetInPixels;
+                        _camerapixeloffsety.Value = trigger.YOffsetInPixels;
+                        break;
                 }
             }
             finally
@@ -459,6 +565,12 @@ namespace linerider.UI
             {
                 case TriggerType.Zoom:
                     typelabel = "[Zoom]";
+                    break;
+                case TriggerType.CameraOffset:
+                    typelabel = "[Camera Offset]";
+                    break;
+                default:
+                    typelabel = "[???]";
                     break;
             }
             return $"{typelabel} {trigger.Start} - {trigger.End}";

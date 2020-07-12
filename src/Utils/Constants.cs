@@ -13,6 +13,14 @@ namespace linerider.Utils
         public static int LineGreen = Settings.LineColorGreen;
         public static int LineBlue = Settings.LineColorBlue;
 
+        public static int SceneryLineRed = Settings.SceneryLineColorRed;
+        public static int SceneryLineGreen = Settings.SceneryLineColorGreen;
+        public static int SceneryLineBlue = Settings.SceneryLineColorBlue;
+
+        public static int AccelerationLineRed = Settings.AccelerationLineColorRed;
+        public static int AccelerationLineGreen = Settings.AccelerationLineColorGreen;
+        public static int AccelerationLineBlue = Settings.AccelerationLineColorBlue;
+
         public static int NormalRed = Settings.NormalColorRed;
         public static int NormalGreen = Settings.NormalColorGreen;
         public static int NormalBlue = Settings.NormalColorBlue;
@@ -29,7 +37,7 @@ namespace linerider.Utils
         public static readonly Color4 ColorWhite = new Color4(255, 255, 255, 255);
         public static readonly Color4 ColorNightMode = new Color4(22, 22, 22, 255);
 
-        public static Color4 ColorColored = new Color4((float)(Red/255), (float)(Green/255), (float)(Blue/255), 255);
+        public static Color4 ColorColored = new Color4((byte)Red, (byte)Green, (byte)Blue, (byte)255);
 
         public static readonly int[] MotionArray =
         {
@@ -47,7 +55,10 @@ namespace linerider.Utils
         public static readonly Color TriggerLineColor = Color.FromArgb(0xFF, 0x95, 0x4F);
 
         public static readonly Color DefaultLineColor = Color.FromArgb(0, 0, 0);
+
         public static Color ColorDefaultLine = Color.FromArgb(LineRed, LineGreen, LineBlue);
+        public static Color ColorSceneryLine = Color.FromArgb(SceneryLineRed, SceneryLineGreen, SceneryLineBlue);
+        public static Color ColorAccelerationLine = Color.FromArgb(AccelerationLineRed, AccelerationLineGreen, AccelerationLineBlue);
 
         public static readonly Color DefaultNightLineColor = Color.FromArgb(255, 255, 255);
 

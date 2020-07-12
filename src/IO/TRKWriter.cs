@@ -127,13 +127,20 @@ namespace linerider.IO
                     if (i != 0)
                         triggerstring.Append("&");
 
-                    triggerstring.Append((int)TriggerType.Zoom);
+                    triggerstring.Append((int)t.TriggerType);
                     triggerstring.Append(":");
-                    if (t.TriggerType == TriggerType.Zoom)
+                    switch (t.TriggerType)
                     {
-                        triggerstring.Append(t.ZoomTarget.ToString(Program.Culture));
-                        triggerstring.Append(":");
+                        case TriggerType.Zoom:
+                            triggerstring.Append(t.ZoomTarget.ToString(Program.Culture));
+                            break;
+                        case TriggerType.CameraOffset:
+                            triggerstring.Append(t.XOffsetInPixels.ToString(Program.Culture));
+                            triggerstring.Append(":");
+                            triggerstring.Append(t.YOffsetInPixels.ToString(Program.Culture));
+                            break;
                     }
+                    triggerstring.Append(":");
                     triggerstring.Append(t.Start.ToString(Program.Culture));
                     triggerstring.Append(":");
                     triggerstring.Append(t.End.ToString(Program.Culture));

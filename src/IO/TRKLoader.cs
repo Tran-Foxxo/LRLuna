@@ -76,18 +76,34 @@ namespace linerider.IO
                                     "Unsupported trigger type");
                             }
                             GameTrigger newtrigger;
+                            int start;
+                            int end;
                             switch (ttype)
                             {
                                 case TriggerType.Zoom:
                                     var target = ParseFloat(tdata[1]);
-                                    var start = ParseInt(tdata[2]);
-                                    var end = ParseInt(tdata[3]);
+                                    start = ParseInt(tdata[2]);
+                                    end = ParseInt(tdata[3]);
                                     newtrigger = new GameTrigger()
                                     {
                                         Start = start,
                                         End = end,
                                         TriggerType = TriggerType.Zoom,
                                         ZoomTarget = target,
+                                    };
+                                    break;
+                                case TriggerType.CameraOffset:
+                                    var offsetx = ParseFloat(tdata[1]);
+                                    var offsety = ParseFloat(tdata[2]);
+                                    start = ParseInt(tdata[3]);
+                                    end = ParseInt(tdata[4]);
+                                    newtrigger = new GameTrigger()
+                                    {
+                                        Start = start,
+                                        End = end,
+                                        TriggerType = TriggerType.CameraOffset,
+                                        XOffsetInPixels = offsetx,
+                                        YOffsetInPixels = offsety,
                                     };
                                     break;
                                 default:

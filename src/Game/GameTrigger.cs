@@ -40,8 +40,8 @@ namespace linerider.Game
         public int lineGreen;
         public int lineBlue;
         //Camera Offset
-        public float XOffset = 0;
-        public float YOffset = 0;
+        public float XOffsetInPixels = 0;
+        public float YOffsetInPixels = 0;
 
         public bool CompareTo(GameTrigger other)
         {
@@ -74,17 +74,38 @@ namespace linerider.Game
             }
             return handled;
         }
-        public bool ActivateBackgroundColor(int hitdelta)
+        public bool ActivateBackgroundColor(int delta)
         {
             return false;
         }
-        public bool ActivateLineColor(int hitdelta)
+        public bool ActivateLineColor(int delta)
         {
             return false;
         }
-        public bool ActivateCameraOffset(int delta, ref Vector2d cameraoffset)
+        public bool ActivateCameraOffset(int delta, ref Vector2d cameraoffset, Vector2d from)
         {
-            return false;
+            bool handled = false;
+            if (TriggerType == TriggerType.CameraOffset)
+            {
+                int frames = End - Start;
+                float amt = ((float)delta / (float)frames);
+
+                Vector2d to = new Vector2d(XOffsetInPixels - (float)from.X, YOffsetInPixels - (float)from.Y);
+
+                if (!cameraoffset.Equals(to))
+                {
+                    if (delta >= 0 && delta < frames)
+                    {
+                        cameraoffset = ((to) * amt)+from;
+                        handled = true;
+                    }
+                    else
+                    {
+                        cameraoffset = new Vector2d(XOffsetInPixels, YOffsetInPixels); 
+                    }
+                }
+            }
+            return handled;
         }
         public GameTrigger Clone()
         {

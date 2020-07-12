@@ -14,7 +14,7 @@ namespace linerider.Game
         {
             base.GetFrameCamera(frame);
 
-            var box = CameraBoundingBox.Create(_frames[frame].RiderCenter, _zoom, Vector2d.Zero);
+            var box = CameraBoundingBox.Create(_frames[frame].RiderCenter, _zoom);
             return box.Clamp(CameraMotionReducer(frame));
         }
         /// <summary>
@@ -27,11 +27,10 @@ namespace linerider.Game
             const int forwardcount = 40;
             EnsureFrame(frame + forwardcount);
             Vector2d offset = CalculateOffset(frame);
-            var box = CameraBoundingBox.Create(Vector2d.Zero, _zoom, Vector2d.Zero);
+            var box = CameraBoundingBox.Create(Vector2d.Zero, _zoom);
             var framebox = CameraBoundingBox.Create(
                 _frames[frame].RiderCenter,
-                _zoom,
-                Vector2d.Zero);
+                _zoom);
 
             Vector2d center = Vector2d.Zero;
             int math = 0;

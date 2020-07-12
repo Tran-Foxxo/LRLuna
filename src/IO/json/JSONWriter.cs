@@ -86,13 +86,28 @@ namespace linerider.IO
             }
             foreach (var trigger in trk.Triggers)
             {
-                trackobj.gameTriggers.Add(new track_json.gametrigger_json()
+                switch (trigger.TriggerType)
                 {
-                    triggerType = (int)trigger.TriggerType,
-                    zoomTarget = trigger.ZoomTarget,
-                    start = trigger.Start,
-                    end = trigger.End
-                });
+                    case TriggerType.Zoom:
+                        trackobj.gameTriggers.Add(new track_json.gametrigger_json()
+                        {
+                            triggerType = (int)trigger.TriggerType,
+                            zoomTarget = trigger.ZoomTarget,
+                            start = trigger.Start,
+                            end = trigger.End
+                        });
+                        break;
+                    case TriggerType.CameraOffset:
+                        trackobj.gameTriggers.Add(new track_json.gametrigger_json()
+                        {
+                            triggerType = (int)trigger.TriggerType,
+                            xOffsetInPixels = trigger.XOffsetInPixels,
+                            yOffsetInPixels = trigger.YOffsetInPixels,
+                            start = trigger.Start,
+                            end = trigger.End
+                        });
+                        break;
+                }
             }
             var dir = TrackIO.GetTrackDirectory(trk);
             if (!Directory.Exists(dir))

@@ -288,7 +288,7 @@ namespace linerider.UI
                 Settings.MainLine = ((Checkbox)o).IsChecked;
                 Settings.Save();
             });
-            var coloroptions = GwenHelper.CreateHeaderPanel(parent, "Color options");
+            var coloroptions = GwenHelper.CreateHeaderPanel(parent, "Blue Line Color Options");
             var redS = new Spinner(null)
             {
                 Min = 0,
@@ -331,6 +331,95 @@ namespace linerider.UI
                 Constants.ColorDefaultLine = Color.FromArgb(Constants.LineRed, Constants.LineGreen, Constants.LineBlue);
             };
             GwenHelper.CreateLabeledControl(coloroptions, "Blue", blueS);
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            var coloroptionsaccel = GwenHelper.CreateHeaderPanel(parent, "Accel Line Color Options (TODO)");
+            coloroptionsaccel.IsDisabled = true;
+            var redSAccel = new Spinner(null)
+            {
+                Min = 0,
+                Max = 255,
+                Value = Settings.AccelerationLineColorRed,
+            };
+            redSAccel.ValueChanged += (o, e) =>
+            {
+                Settings.AccelerationLineColorRed = (int)redSAccel.Value;
+                Constants.AccelerationLineRed = (int)redSAccel.Value;
+                Settings.Save();
+                Constants.ColorAccelerationLine = Color.FromArgb(Constants.AccelerationRed, Constants.AccelerationGreen, Constants.AccelerationBlue);
+            };
+            GwenHelper.CreateLabeledControl(coloroptionsaccel, "Red", redSAccel);
+            var greenSAccel = new Spinner(null)
+            {
+                Min = 0,
+                Max = 255,
+                Value = Settings.AccelerationLineColorGreen,
+            };
+            greenSAccel.ValueChanged += (o, e) =>
+            {
+                Settings.AccelerationLineColorGreen = (int)greenSAccel.Value;
+                Constants.AccelerationLineGreen = (int)greenSAccel.Value;
+                Settings.Save();
+                Constants.ColorAccelerationLine = Color.FromArgb(Constants.AccelerationRed, Constants.AccelerationGreen, Constants.AccelerationBlue);
+            };
+            GwenHelper.CreateLabeledControl(coloroptionsaccel, "Green", greenSAccel);
+            var blueSAccel = new Spinner(null)
+            {
+                Min = 0,
+                Max = 255,
+                Value = Settings.AccelerationLineColorBlue,
+            };
+            blueSAccel.ValueChanged += (o, e) =>
+            {
+                Settings.AccelerationLineColorBlue = (int)blueSAccel.Value;
+                Constants.AccelerationLineBlue = (int)blueSAccel.Value;
+                Settings.Save();
+                Constants.ColorAccelerationLine = Color.FromArgb(Constants.AccelerationRed, Constants.AccelerationGreen, Constants.AccelerationBlue);
+            };
+            GwenHelper.CreateLabeledControl(coloroptionsaccel, "Blue", blueSAccel);
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            var coloroptionsscenery = GwenHelper.CreateHeaderPanel(parent, "Scenery Line Color Options");
+            var redSScnery = new Spinner(null)
+            {
+                Min = 0,
+                Max = 255,
+                Value = Settings.SceneryLineColorRed,
+            };
+            redSScnery.ValueChanged += (o, e) =>
+            {
+                Settings.SceneryLineColorRed = (int)redSScnery.Value;
+                Constants.AccelerationLineRed = (int)redSScnery.Value;
+                Settings.Save();
+                Constants.ColorSceneryLine = Color.FromArgb(Constants.SceneryRed, Constants.SceneryGreen, Constants.SceneryBlue);
+            };
+            GwenHelper.CreateLabeledControl(coloroptionsscenery, "Red", redSScnery);
+            var greenSScenery = new Spinner(null)
+            {
+                Min = 0,
+                Max = 255,
+                Value = Settings.SceneryLineColorGreen,
+            };
+            greenSScenery.ValueChanged += (o, e) =>
+            {
+                Settings.SceneryLineColorGreen = (int)greenSScenery.Value;
+                Constants.AccelerationLineGreen = (int)greenSScenery.Value;
+                Settings.Save();
+                Constants.ColorSceneryLine = Color.FromArgb(Constants.SceneryRed, Constants.SceneryGreen, Constants.SceneryBlue);
+            };
+            GwenHelper.CreateLabeledControl(coloroptionsscenery, "Green", greenSScenery);
+            var blueSScenery = new Spinner(null)
+            {
+                Min = 0,
+                Max = 255,
+                Value = Settings.SceneryLineColorBlue,
+            };
+            blueSScenery.ValueChanged += (o, e) =>
+            {
+                Settings.AccelerationLineColorBlue = (int)blueSScenery.Value;
+                Constants.AccelerationLineBlue = (int)blueSScenery.Value;
+                Settings.Save();
+                Constants.ColorSceneryLine = Color.FromArgb(Constants.SceneryRed, Constants.SceneryGreen, Constants.SceneryBlue);
+            };
+            GwenHelper.CreateLabeledControl(coloroptionsscenery, "Blue", blueSScenery);
         }
         private void PopulateAudio(ControlBase parent)
         {

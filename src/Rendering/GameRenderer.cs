@@ -150,10 +150,9 @@ namespace linerider.Rendering
         public static void DbgDrawCamera()
         {
             GL.PushMatrix();
-            Vector2d offset = Game.Track.Timeline.GetFrameCameraOffset(Game.Track.Offset);
-            var center = new Vector2(Game.RenderSize.Width / 2, Game.RenderSize.Height / 2) - (Vector2)offset;
+            var center = new Vector2(Game.RenderSize.Width / 2, Game.RenderSize.Height / 2) + new Vector2((float)Game.Track.CameraOffset.X, (float)-Game.Track.CameraOffset.Y);
 
-            var rect = Game.Track.Camera.getclamp(1, Game.RenderSize.Width, Game.RenderSize.Height);
+            var rect = Game.Track.Camera.getclamp(1, Game.RenderSize.Width, Game.RenderSize.Height, Game.Track.CameraOffset);
 
             rect.Width *= Game.Track.Zoom;
             rect.Height *= Game.Track.Zoom;
@@ -313,7 +312,8 @@ namespace linerider.Rendering
                     foreach (var v in trk.GetLinesInRect(Game.Track.Camera.GetViewport(
                         Game.Track.Zoom,
                         Game.RenderSize.Width,
-                        Game.RenderSize.Height), false))
+                        Game.RenderSize.Height,
+                        Game.Track.CameraOffset / Game.Track.Zoom), false))
                     {
                         if (v is StandardLine std)
                         {
