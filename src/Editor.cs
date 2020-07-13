@@ -227,6 +227,13 @@ namespace linerider
             UndoManager = new UndoManager();
             Paused = true;
         }
+        public void LineColorsChanged()
+        {
+            using (_tracksync.AcquireRead())
+            {
+                _renderer.RefreshTrack(_track);
+            }
+        }
         public void Render(float blend)
         {
             _invalidated = false;

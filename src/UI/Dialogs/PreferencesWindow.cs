@@ -20,7 +20,7 @@ namespace linerider.UI
         public PreferencesWindow(GameCanvas parent, Editor editor) : base(parent, editor)
         {
             Title = "Preferences";
-            SetSize(450, 425);
+            SetSize(450, 600);
             MinimumSize = Size;
             ControlBase bottom = new ControlBase(this)
             {
@@ -98,15 +98,21 @@ namespace linerider.UI
 
         private void PopulateAccelLine(ControlBase parent)
         {
+            Constants.AccelerationRed = Settings.AccelerationColorRed;
+            Constants.AccelerationGreen = Settings.AccelerationColorGreen;
+            Constants.AccelerationBlue = Settings.AccelerationColorBlue;
+
             var accel = GwenHelper.CreateHeaderPanel(parent, "Line Options");
+            var coloraccel = GwenHelper.CreateHeaderPanel(parent, "RGB");
+            coloraccel.IsDisabled = !Settings.AccelerationColorChange;
             GwenHelper.AddCheckbox(accel, "Line Customization", Settings.AccelerationColorChange, (o, e) =>
             {
                 Settings.AccelerationColorChange = ((Checkbox)o).IsChecked;
                 Settings.Save();
+
+                coloraccel.IsDisabled = !((Checkbox)o).IsChecked;
             });
-
-
-            var coloraccel = GwenHelper.CreateHeaderPanel(parent, "RGB");
+            
             var redS = new Spinner(null)
             {
                 Min = 0,
@@ -119,6 +125,7 @@ namespace linerider.UI
                 Constants.AccelerationRed = (int)redS.Value;
                 Settings.Save();
                 Constants.RedLineColored = Color.FromArgb(Constants.AccelerationRed, Constants.AccelerationGreen, Constants.AccelerationBlue);
+                _editor.LineColorsChanged();
             };
             GwenHelper.CreateLabeledControl(coloraccel, "Red", redS);
             var greenS = new Spinner(null)
@@ -133,6 +140,7 @@ namespace linerider.UI
                 Constants.AccelerationGreen = (int)greenS.Value;
                 Settings.Save();
                 Constants.RedLineColored = Color.FromArgb(Constants.AccelerationRed, Constants.AccelerationGreen, Constants.AccelerationBlue);
+                _editor.LineColorsChanged();
             };
             GwenHelper.CreateLabeledControl(coloraccel, "Green", greenS);
             var blueS = new Spinner(null)
@@ -147,21 +155,29 @@ namespace linerider.UI
                 Constants.AccelerationBlue = (int)blueS.Value;
                 Settings.Save();
                 Constants.RedLineColored = Color.FromArgb(Constants.AccelerationRed, Constants.AccelerationGreen, Constants.AccelerationBlue);
+                _editor.LineColorsChanged();
             };
             GwenHelper.CreateLabeledControl(coloraccel, "Blue", blueS);
         }
 
         private void PopulateNormalLine(ControlBase parent)
         {
+            Constants.NormalRed = Settings.NormalColorRed;
+            Constants.NormalGreen = Settings.NormalColorGreen;
+            Constants.NormalBlue = Settings.NormalColorBlue;
+
             var normal = GwenHelper.CreateHeaderPanel(parent, "Line Options");
+
+            var colornormal = GwenHelper.CreateHeaderPanel(parent, "RGB");
+            colornormal.IsDisabled = !Settings.NormalColorChange;
             GwenHelper.AddCheckbox(normal, "Line Customization", Settings.NormalColorChange, (o, e) =>
             {
                 Settings.NormalColorChange = ((Checkbox)o).IsChecked;
                 Settings.Save();
+
+                colornormal.IsDisabled = !((Checkbox)o).IsChecked;
             });
 
-
-            var colornormal = GwenHelper.CreateHeaderPanel(parent, "RGB");
             var redS = new Spinner(null)
             {
                 Min = 0,
@@ -174,6 +190,7 @@ namespace linerider.UI
                 Constants.NormalRed = (int)redS.Value;
                 Settings.Save();
                 Constants.BlueLineColored = Color.FromArgb(Constants.NormalRed, Constants.NormalGreen, Constants.NormalBlue);
+                _editor.LineColorsChanged();
             };
             GwenHelper.CreateLabeledControl(colornormal, "Red", redS);
             var greenS = new Spinner(null)
@@ -188,6 +205,7 @@ namespace linerider.UI
                 Constants.NormalGreen = (int)greenS.Value;
                 Settings.Save();
                 Constants.BlueLineColored = Color.FromArgb(Constants.NormalRed, Constants.NormalGreen, Constants.NormalBlue);
+                _editor.LineColorsChanged();
             };
             GwenHelper.CreateLabeledControl(colornormal, "Green", greenS);
             var blueS = new Spinner(null)
@@ -202,21 +220,28 @@ namespace linerider.UI
                 Constants.NormalBlue = (int)blueS.Value;
                 Settings.Save();
                 Constants.BlueLineColored = Color.FromArgb(Constants.NormalRed, Constants.NormalGreen, Constants.NormalBlue);
+                _editor.LineColorsChanged();
             };
             GwenHelper.CreateLabeledControl(colornormal, "Blue", blueS);
         }
 
         private void PopulateSceneryLine(ControlBase parent)
         {
+            Constants.SceneryRed = Settings.SceneryColorRed;
+            Constants.SceneryGreen = Settings.SceneryColorGreen;
+            Constants.SceneryBlue = Settings.SceneryColorBlue;
+
             var scenery = GwenHelper.CreateHeaderPanel(parent, "Line Options");
+            var colorscenery = GwenHelper.CreateHeaderPanel(parent, "RGB");
+            colorscenery.IsDisabled = !Settings.SceneryColorChange;
             GwenHelper.AddCheckbox(scenery, "Line Customization", Settings.SceneryColorChange, (o, e) =>
             {
                 Settings.SceneryColorChange = ((Checkbox)o).IsChecked;
                 Settings.Save();
+
+                colorscenery.IsDisabled = !((Checkbox)o).IsChecked;
             });
 
-
-            var colorscenery = GwenHelper.CreateHeaderPanel(parent, "RGB");
             var redS = new Spinner(null)
             {
                 Min = 0,
@@ -229,6 +254,7 @@ namespace linerider.UI
                 Constants.SceneryRed = (int)redS.Value;
                 Settings.Save();
                 Constants.SceneryLineColored = Color.FromArgb(Constants.SceneryRed, Constants.SceneryGreen, Constants.SceneryBlue);
+                _editor.LineColorsChanged();
             };
             GwenHelper.CreateLabeledControl(colorscenery, "Red", redS);
             var greenS = new Spinner(null)
@@ -243,6 +269,7 @@ namespace linerider.UI
                 Constants.SceneryGreen = (int)greenS.Value;
                 Settings.Save();
                 Constants.SceneryLineColored = Color.FromArgb(Constants.SceneryRed, Constants.SceneryGreen, Constants.SceneryBlue);
+                _editor.LineColorsChanged();
             };
             GwenHelper.CreateLabeledControl(colorscenery, "Green", greenS);
             var blueS = new Spinner(null)
@@ -257,6 +284,7 @@ namespace linerider.UI
                 Constants.SceneryBlue = (int)blueS.Value;
                 Settings.Save();
                 Constants.SceneryLineColored = Color.FromArgb(Constants.SceneryRed, Constants.SceneryGreen, Constants.SceneryBlue);
+                _editor.LineColorsChanged();
             };
             GwenHelper.CreateLabeledControl(colorscenery, "Blue", blueS);
         }
@@ -283,12 +311,7 @@ namespace linerider.UI
         private void PopulateLines(ControlBase parent)
         {
             var lineoptions = GwenHelper.CreateHeaderPanel(parent, "Line options");
-            GwenHelper.AddCheckbox(lineoptions, "Line Customization", Settings.MainLine, (o, e) =>
-            {
-                Settings.MainLine = ((Checkbox)o).IsChecked;
-                Settings.Save();
-            });
-            var coloroptions = GwenHelper.CreateHeaderPanel(parent, "Blue Line Color Options");
+            var coloroptions = GwenHelper.CreateHeaderPanel(parent, "Blue Line Color");
             var redS = new Spinner(null)
             {
                 Min = 0,
@@ -328,12 +351,12 @@ namespace linerider.UI
                 Settings.LineColorBlue = (int)blueS.Value;
                 Constants.LineBlue = (int)blueS.Value;
                 Settings.Save();
-                Constants.ColorDefaultLine = Color.FromArgb(Constants.LineRed, Constants.LineGreen, Constants.LineBlue);
+                Constants.ColorDefaultLine = Color.FromArgb(255, Constants.LineRed, Constants.LineGreen, Constants.LineBlue);
             };
             GwenHelper.CreateLabeledControl(coloroptions, "Blue", blueS);
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            var coloroptionsaccel = GwenHelper.CreateHeaderPanel(parent, "Accel Line Color Options (TODO)");
-            coloroptionsaccel.IsDisabled = true;
+            var coloroptionsaccel = GwenHelper.CreateHeaderPanel(parent, "Accel Line Color");
+            //coloroptionsaccel.IsDisabled = true;
             var redSAccel = new Spinner(null)
             {
                 Min = 0,
@@ -345,7 +368,7 @@ namespace linerider.UI
                 Settings.AccelerationLineColorRed = (int)redSAccel.Value;
                 Constants.AccelerationLineRed = (int)redSAccel.Value;
                 Settings.Save();
-                Constants.ColorAccelerationLine = Color.FromArgb(Constants.AccelerationRed, Constants.AccelerationGreen, Constants.AccelerationBlue);
+                Constants.ColorAccelerationLine = Color.FromArgb(255, Constants.AccelerationLineRed, Constants.AccelerationLineGreen, Constants.AccelerationLineBlue);
             };
             GwenHelper.CreateLabeledControl(coloroptionsaccel, "Red", redSAccel);
             var greenSAccel = new Spinner(null)
@@ -359,7 +382,7 @@ namespace linerider.UI
                 Settings.AccelerationLineColorGreen = (int)greenSAccel.Value;
                 Constants.AccelerationLineGreen = (int)greenSAccel.Value;
                 Settings.Save();
-                Constants.ColorAccelerationLine = Color.FromArgb(Constants.AccelerationRed, Constants.AccelerationGreen, Constants.AccelerationBlue);
+                Constants.ColorAccelerationLine = Color.FromArgb(255, Constants.AccelerationLineRed, Constants.AccelerationLineGreen, Constants.AccelerationLineBlue);
             };
             GwenHelper.CreateLabeledControl(coloroptionsaccel, "Green", greenSAccel);
             var blueSAccel = new Spinner(null)
@@ -373,11 +396,11 @@ namespace linerider.UI
                 Settings.AccelerationLineColorBlue = (int)blueSAccel.Value;
                 Constants.AccelerationLineBlue = (int)blueSAccel.Value;
                 Settings.Save();
-                Constants.ColorAccelerationLine = Color.FromArgb(Constants.AccelerationRed, Constants.AccelerationGreen, Constants.AccelerationBlue);
+                Constants.ColorAccelerationLine = Color.FromArgb(255, Constants.AccelerationLineRed, Constants.AccelerationLineGreen, Constants.AccelerationLineBlue);
             };
             GwenHelper.CreateLabeledControl(coloroptionsaccel, "Blue", blueSAccel);
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            var coloroptionsscenery = GwenHelper.CreateHeaderPanel(parent, "Scenery Line Color Options");
+            var coloroptionsscenery = GwenHelper.CreateHeaderPanel(parent, "Scenery Line Color");
             var redSScnery = new Spinner(null)
             {
                 Min = 0,
@@ -387,9 +410,9 @@ namespace linerider.UI
             redSScnery.ValueChanged += (o, e) =>
             {
                 Settings.SceneryLineColorRed = (int)redSScnery.Value;
-                Constants.AccelerationLineRed = (int)redSScnery.Value;
+                Constants.SceneryLineRed = (int)redSScnery.Value;
                 Settings.Save();
-                Constants.ColorSceneryLine = Color.FromArgb(Constants.SceneryRed, Constants.SceneryGreen, Constants.SceneryBlue);
+                Constants.ColorSceneryLine = Color.FromArgb(Constants.SceneryLineRed, Constants.SceneryLineGreen, Constants.SceneryLineBlue);
             };
             GwenHelper.CreateLabeledControl(coloroptionsscenery, "Red", redSScnery);
             var greenSScenery = new Spinner(null)
@@ -401,9 +424,9 @@ namespace linerider.UI
             greenSScenery.ValueChanged += (o, e) =>
             {
                 Settings.SceneryLineColorGreen = (int)greenSScenery.Value;
-                Constants.AccelerationLineGreen = (int)greenSScenery.Value;
+                Constants.SceneryLineGreen = (int)greenSScenery.Value;
                 Settings.Save();
-                Constants.ColorSceneryLine = Color.FromArgb(Constants.SceneryRed, Constants.SceneryGreen, Constants.SceneryBlue);
+                Constants.ColorSceneryLine = Color.FromArgb(Constants.SceneryLineRed, Constants.SceneryLineGreen, Constants.SceneryLineBlue);
             };
             GwenHelper.CreateLabeledControl(coloroptionsscenery, "Green", greenSScenery);
             var blueSScenery = new Spinner(null)
@@ -414,12 +437,24 @@ namespace linerider.UI
             };
             blueSScenery.ValueChanged += (o, e) =>
             {
-                Settings.AccelerationLineColorBlue = (int)blueSScenery.Value;
-                Constants.AccelerationLineBlue = (int)blueSScenery.Value;
+                Settings.SceneryLineColorBlue = (int)blueSScenery.Value;
+                Constants.SceneryLineBlue = (int)blueSScenery.Value;
                 Settings.Save();
-                Constants.ColorSceneryLine = Color.FromArgb(Constants.SceneryRed, Constants.SceneryGreen, Constants.SceneryBlue);
+                Constants.ColorSceneryLine = Color.FromArgb(Constants.SceneryLineRed, Constants.SceneryLineGreen, Constants.SceneryLineBlue);
             };
             GwenHelper.CreateLabeledControl(coloroptionsscenery, "Blue", blueSScenery);
+
+            GwenHelper.AddCheckbox(lineoptions, "Enable Custom Line Colors", Settings.MainLine, (o, e) =>
+            {
+                Settings.MainLine = ((Checkbox)o).IsChecked;
+                Settings.Save();
+                coloroptions.IsDisabled = !((Checkbox)o).IsChecked;
+                coloroptionsaccel.IsDisabled = !((Checkbox)o).IsChecked;
+                coloroptionsscenery.IsDisabled = !((Checkbox)o).IsChecked;
+            });
+            coloroptions.IsDisabled = !Settings.MainLine;
+            coloroptionsaccel.IsDisabled = !Settings.MainLine;
+            coloroptionsscenery.IsDisabled = !Settings.MainLine;
         }
         private void PopulateAudio(ControlBase parent)
         {
@@ -1028,12 +1063,20 @@ namespace linerider.UI
             var updates = GwenHelper.CreateHeaderPanel(parent, "Updates");
 
             var showid = GwenHelper.AddCheckbox(updates, "Check For Updates", Settings.CheckForUpdates, (o, e) =>
-               {
-                   Settings.CheckForUpdates = ((Checkbox)o).IsChecked;
-                   Settings.Save();
-               });
+            {
+                Settings.CheckForUpdates = ((Checkbox)o).IsChecked;
+                Settings.Save();
+            });
             var accel = GwenHelper.CreateHeaderPanel(parent, ("Time Elapsed: " + Settings.MinutesElapsed + " minutes"));
 
+            var secret = GwenHelper.CreateHeaderPanel(parent, "Secrets");
+            secret.Padding = new Padding(secret.Padding.Left, 600, 0, 0);
+            var showida = GwenHelper.AddCheckbox(secret, "Confetti Lines", Settings.ConfettiLines, (o, e) =>
+            {
+                Settings.ConfettiLines = ((Checkbox)o).IsChecked;
+                Settings.Save();
+                _editor.LineColorsChanged();
+            });
         }
         private void Setup()
         {
@@ -1048,9 +1091,9 @@ namespace linerider.UI
             PopulateTools(page);
             page = AddPage(cat, "Environment");
             PopulateModes(page);
-            page = AddPage(cat, "Line Settings");
+            page = AddPage(cat, "Preview Colors");
             PopulateLines(page);
-            page = AddPage(cat, "Line Settings 2");
+            page = AddPage(cat, "Line Settings");
             PopulateLines2(page);
             page = AddPage(cat, "Normal Lines");
             PopulateNormalLine(page);

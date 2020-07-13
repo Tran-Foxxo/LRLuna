@@ -96,7 +96,6 @@ namespace linerider
             Track = new Editor();
             VSync = VSyncMode.On;
             Context.ErrorChecking = false;
-            Track.UpdateScarf(Settings.SelectedScarf);
             WindowBorder = WindowBorder.Resizable;
             RenderFrame += (o, e) => { Render(); };
             UpdateFrame += (o, e) => { GameUpdate(); };
@@ -306,6 +305,15 @@ namespace linerider
 
             try   { Models.LoadModels(Settings.SelectedBoshSkin); }
             catch { Models.LoadModels(); }
+            Track.UpdateScarf(Settings.SelectedScarf);
+
+            Constants.ColorAccelerationLine = Color.FromArgb(255, Settings.AccelerationLineColorRed, Settings.AccelerationLineColorGreen, Settings.AccelerationLineColorBlue);
+            Constants.ColorSceneryLine = Color.FromArgb(255, Settings.SceneryLineColorRed, Settings.SceneryLineColorGreen, Settings.SceneryLineColorBlue);
+            Constants.ColorDefaultLine = Color.FromArgb(255, Settings.LineColorRed, Settings.LineColorGreen, Settings.LineColorBlue);
+
+            Constants.BlueLineColored = Color.FromArgb(255, Settings.NormalColorRed, Settings.NormalColorGreen, Settings.NormalColorBlue);
+            Constants.RedLineColored = Color.FromArgb(255, Settings.AccelerationColorRed, Settings.AccelerationColorGreen, Settings.AccelerationColorBlue);
+            Constants.SceneryLineColored = Color.FromArgb(255, Settings.SceneryColorRed, Settings.SceneryColorGreen, Settings.SceneryColorBlue);
 
             AddCursor("pencil", GameResources.cursor_pencil, 6, 25);
             AddCursor("line", GameResources.cursor_line, 11, 11);

@@ -78,9 +78,11 @@ namespace linerider
         public static int LineColorRed;
         public static int LineColorGreen;
         public static int LineColorBlue;
+
         public static int SceneryLineColorRed;
         public static int SceneryLineColorGreen;
         public static int SceneryLineColorBlue;
+
         public static int AccelerationLineColorRed;
         public static int AccelerationLineColorGreen;
         public static int AccelerationLineColorBlue;
@@ -150,7 +152,13 @@ namespace linerider
 
         //Timer
 
-        public static float MinutesElapsed; 
+        public static float MinutesElapsed;
+
+        //end
+
+        //Fun stuff, cuz why not
+
+        public static bool ConfettiLines;
 
         //end
 
@@ -267,9 +275,19 @@ namespace linerider
             RedColored = 127;
             GreenColored = 127;
             BlueColored = 127;
+
             LineColorRed = 127;
             LineColorGreen = 127;
             LineColorBlue = 127;
+
+            SceneryLineColorRed = 127;
+            SceneryLineColorGreen = 127;
+            SceneryLineColorBlue = 127;
+
+            AccelerationLineColorRed = 127;
+            AccelerationLineColorGreen = 127;
+            AccelerationLineColorBlue = 127;
+
             MainLine = false;
 
             ConfigTContactPoints = false;
@@ -314,6 +332,8 @@ namespace linerider
 
             SelectedBoshSkin = "*default*";
             CustomScarfOnPng = false;
+
+            ConfettiLines = false;
         }
         public static void ResetKeybindings()
         {
@@ -545,6 +565,14 @@ namespace linerider
             LoadInt(GetSetting(lines, nameof(LineColorGreen)), ref LineColorGreen);
             LoadInt(GetSetting(lines, nameof(LineColorBlue)), ref LineColorBlue);
 
+            LoadInt(GetSetting(lines, nameof(SceneryLineColorRed)), ref SceneryLineColorRed);
+            LoadInt(GetSetting(lines, nameof(SceneryLineColorGreen)), ref SceneryLineColorGreen);
+            LoadInt(GetSetting(lines, nameof(SceneryLineColorBlue)), ref SceneryLineColorBlue);
+
+            LoadInt(GetSetting(lines, nameof(AccelerationLineColorRed)), ref AccelerationLineColorRed);
+            LoadInt(GetSetting(lines, nameof(AccelerationLineColorGreen)), ref AccelerationLineColorGreen);
+            LoadInt(GetSetting(lines, nameof(AccelerationLineColorBlue)), ref AccelerationLineColorBlue);
+
             LoadBool(GetSetting(lines, nameof(MainLine)), ref MainLine);
 
             LoadBool(GetSetting(lines, nameof(NormalColorChange)), ref NormalColorChange);
@@ -609,6 +637,8 @@ namespace linerider
             SelectedBoshSkin = GetSetting(lines, nameof(SelectedBoshSkin));
             LoadBool(GetSetting(lines, nameof(CustomScarfOnPng)), ref CustomScarfOnPng);
 
+            LoadBool(GetSetting(lines, nameof(ConfettiLines)), ref ConfettiLines);
+
             if (File.Exists(lasttrack) && lasttrack.StartsWith(Constants.TracksDirectory))
             {
                 LastSelectedTrack = lasttrack;
@@ -656,6 +686,14 @@ namespace linerider
             config += "\r\n" + MakeSetting(nameof(LineColorGreen), LineColorGreen.ToString(Program.Culture));
             config += "\r\n" + MakeSetting(nameof(LineColorBlue), LineColorBlue.ToString(Program.Culture));
 
+            config += "\r\n" + MakeSetting(nameof(AccelerationLineColorRed), AccelerationLineColorRed.ToString(Program.Culture));
+            config += "\r\n" + MakeSetting(nameof(AccelerationLineColorGreen), AccelerationLineColorGreen.ToString(Program.Culture));
+            config += "\r\n" + MakeSetting(nameof(AccelerationLineColorBlue), AccelerationLineColorBlue.ToString(Program.Culture));
+
+            config += "\r\n" + MakeSetting(nameof(SceneryLineColorRed), SceneryLineColorRed.ToString(Program.Culture));
+            config += "\r\n" + MakeSetting(nameof(SceneryLineColorGreen), SceneryLineColorGreen.ToString(Program.Culture));
+            config += "\r\n" + MakeSetting(nameof(SceneryLineColorBlue), SceneryLineColorBlue.ToString(Program.Culture));
+                
             config += "\r\n" + MakeSetting(nameof(MainLine), MainLine.ToString(Program.Culture));
 
             config += "\r\n" + MakeSetting(nameof(NormalColorChange), NormalColorChange.ToString(Program.Culture));
@@ -718,6 +756,8 @@ namespace linerider
 
             config += "\r\n" + MakeSetting(nameof(SelectedBoshSkin), SelectedBoshSkin);
             config += "\r\n" + MakeSetting(nameof(CustomScarfOnPng), CustomScarfOnPng.ToString(Program.Culture));
+
+            config += "\r\n" + MakeSetting(nameof(ConfettiLines), ConfettiLines.ToString(Program.Culture));
 
             foreach (var binds in Keybinds)
             {

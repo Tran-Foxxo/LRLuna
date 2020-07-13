@@ -68,10 +68,14 @@ namespace linerider.Game
 
         public Color GetColor()
         {
+            if (Settings.ConfettiLines)
+            {
+                return Color.FromArgb(255, Program.Random.Next(0, 255), Program.Random.Next(0, 255), Program.Random.Next(0, 255));
+            }
             switch (Type)
             {
                 case LineType.Blue:
-                    if(Settings.NormalColorChange)
+                    if (Settings.NormalColorChange)
                     {
                         return Constants.BlueLineColored;
                     }

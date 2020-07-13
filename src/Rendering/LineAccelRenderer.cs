@@ -271,6 +271,10 @@ namespace linerider.Rendering
         public static GenericVertex[] GetAccelDecor(RedLine line)
         {
             var linecolor = (Settings.AccelerationColorChange ? Constants.RedLineColored : Constants.RedLineColor);
+            if (Settings.ConfettiLines)
+            {
+                linecolor = Color.FromArgb(255, Program.Random.Next(0, 255), Program.Random.Next(0, 255), Program.Random.Next(0, 255));
+            }
             var multiplier = ((RedLine)line).Multiplier;
             var shapecount = Math.Min(multiplier, 3);
             if (multiplier > 3)

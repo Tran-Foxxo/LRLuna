@@ -40,13 +40,23 @@ namespace linerider.Rendering
         }
         public bool RequiresUpdate = true;
 
-        private LineDecorator _decorator;
+        private LineDecorator _bluedecorator;
+        private LineDecorator _acceldecorator;
         private LineRenderer _physvbo;
+        private LineRenderer _accelvbo;
         private LineRenderer _sceneryvbo;
         /// <summary>
         /// A dictionary of [line id] -> [index of first vertex]
         /// </summary>
         private Dictionary<int, int> _physlines;
+
+        /// <summary>
+        /// A dictionary of [line id] -> [index of first vertex]
+        /// </summary>
+        /// /// <remarks>
+        /// Seperate so different colors can be used
+        /// </remarks>
+        private Dictionary<int, int> _accellines;
 
         /// <summary>
         /// A dictionary of [line id] -> [index of first IBO index]
@@ -68,10 +78,14 @@ namespace linerider.Rendering
             _sync = new ResourceSync();
             _lineactions = new Queue<Tuple<LineActionType, GameLine>>();
             _physlines = new Dictionary<int, int>();
+            _accellines = new Dictionary<int, int>();
             _scenerylines = new Dictionary<int, int>();
-            _decorator = new LineDecorator();
+            _bluedecorator = new LineDecorator();
+            _acceldecorator = new LineDecorator();
             _physvbo = new LineRenderer(Shaders.LineShader);
-            _physvbo.OverrideColor = Constants.DefaultLineColor;
+            _physvbo.OverrideColor = Constants.DefaultLineColor; 
+            _accelvbo = new LineRenderer(Shaders.LineShader);
+            _accelvbo.OverrideColor = Constants.DefaultLineColor;
 
             _sceneryvbo = new LineRenderer(Shaders.LineShader);
             _sceneryvbo.OverrideColor = Color.Black;
@@ -86,46 +100,72 @@ namespace linerider.Rendering
                     BlendingFactorDest.OneMinusSrcAlpha);
                 GameDrawingMatrix.Enter();
                 _physvbo.Scale = options.Zoom;
+                _accelvbo.Scale = options.Zoom;
                 _physvbo.KnobState = options.KnobState;
+                _accelvbo.KnobState = options.KnobState;
 
                 _sceneryvbo.Scale = options.Zoom;
                 //green lines dont get lifelock
                 if (options.KnobState != KnobState.Hidden)
+                {
                     _sceneryvbo.KnobState = KnobState.Shown;
+                    _accelvbo.KnobState = KnobState.Shown;
+                }
                 else
+                {
                     _sceneryvbo.KnobState = KnobState.Hidden;
+                    _accelvbo.KnobState = KnobState.Hidden;
+                }
 
                 if (options.ColoredMainLine)
                 {
-                    _sceneryvbo.OverrideColor = Constants.ColorDefaultLine;
+                    _sceneryvbo.OverrideColor = Constants.ColorSceneryLine;
                     _physvbo.OverrideColor = Constants.ColorDefaultLine;
+                    _accelvbo.OverrideColor = Constants.ColorAccelerationLine;
                 }
                 else if (options.NightMode)
                 {
                     _sceneryvbo.OverrideColor = Constants.DefaultNightLineColor;
                     _physvbo.OverrideColor = Constants.DefaultNightLineColor;
+                    _accelvbo.OverrideColor = Constants.DefaultNightLineColor;
                 }
                 else
                 {
                     _sceneryvbo.OverrideColor = Constants.DefaultLineColor;
                     _physvbo.OverrideColor = Constants.DefaultLineColor;
+                    _accelvbo.OverrideColor = Constants.DefaultLineColor;
                 }
                 if (options.LineColors)
                 {
                     _sceneryvbo.OverrideColor = (Settings.SceneryColorChange ? Constants.SceneryLineColored : Constants.SceneryLineColor);
+                    //_physvbo.OverrideColor = (Settings.NormalColorChange ? Constants.BlueLineColored : Constants.BlueLineColor);
+                    //_accelvbo.OverrideColor = (Settings.AccelerationColorChange ? Constants.RedLineColored : Constants.RedLineColor);
                     _sceneryvbo.OverridePriority = 1;
                     _physvbo.OverridePriority = 1;
+                    _accelvbo.OverridePriority = 1;
                 }
                 else
                 {
                     _sceneryvbo.OverridePriority = 255;//force override
                     _physvbo.OverridePriority = 255;
+                    _accelvbo.OverridePriority = 255;
                 }
+                
+
+                
+
                 _physvbo.Overlay = options.Overlay;
+                _accelvbo.Overlay = options.Overlay;
                 _sceneryvbo.Overlay = options.Overlay;
+                
                 _sceneryvbo.Draw();
-                _decorator.DrawUnder(options);
+                
+                _bluedecorator.DrawUnder(options);
                 _physvbo.Draw();
+                
+                _acceldecorator.DrawUnder(options); 
+                _accelvbo.Draw();
+                
                 GameDrawingMatrix.Exit();
             }
         }
@@ -136,32 +176,41 @@ namespace linerider.Rendering
         {
             AutoArray<GameLine> scenery = new AutoArray<GameLine>(track.SceneryLines);
             scenery.UnsafeSetCount(track.SceneryLines);
-            AutoArray<GameLine> phys = new AutoArray<GameLine>(track.BlueLines + track.RedLines);
+            AutoArray<GameLine> phys = new AutoArray<GameLine>(track.BlueLines);
+            AutoArray<GameLine> accel = new AutoArray<GameLine>(track.RedLines);
             var sorted = track.GetSortedLines();
             using (_sync.AcquireWrite())
             {
                 _lineactions.Clear();
                 _physvbo.Clear();
                 _sceneryvbo.Clear();
-                _decorator.Clear();
+                _accelvbo.Clear();
+                _bluedecorator.Clear();
+                _acceldecorator.Clear();
                 _physlines.Clear();
                 _scenerylines.Clear();
-                _physlines.Clear();
+                _accellines.Clear();
                 RequiresUpdate = true;
 
                 int scenerycount = 0;
                 for (int i = 0; i < sorted.Length; i++)
                 {
                     var line = sorted[i];
-                    if (line.Type == LineType.Scenery)
+
+                    switch (line.Type)
                     {
-                        scenery.unsafe_array[scenery.Count - (1 + scenerycount++)] = line;
-                    }
-                    else
-                    {
-                        phys.Add(line);
+                        case LineType.Scenery:
+                            scenery.unsafe_array[scenery.Count - (1 + scenerycount++)] = line;
+                            break;
+                        case LineType.Blue:
+                            phys.Add(line);
+                            break;
+                        case LineType.Red:
+                            accel.Add(line);
+                            break;
                     }
                 }
+
                 Debug.Assert(scenerycount == scenery.Count,
                     "Predicted scenery count was not accurate");
                 if (scenery.Count != 0)
@@ -195,7 +244,24 @@ namespace linerider.Rendering
                     _physlines = _physvbo.AddLines(
                         phys,
                         physverts);
-                    _decorator.Initialize(phys);
+                    _bluedecorator.Initialize(phys);
+                }
+                if (accel.Count != 0)
+                {
+                    LineVertex[] accelverts = new LineVertex[accel.Count * linesize];
+                    System.Threading.Tasks.Parallel.For(0, accel.Count, (index) =>
+                    {
+                        int counter = 0;
+                        var verts = (GenerateLine(accel[index], false));
+                        foreach (var vert in verts)
+                        {
+                            accelverts[index * linesize + counter++] = vert;
+                        }
+                    });
+                    _accellines = _accelvbo.AddLines(
+                        accel,
+                        accelverts);
+                    _acceldecorator.Initialize(accel);
                 }
                 RequiresUpdate = true;
             }
@@ -252,13 +318,21 @@ namespace linerider.Rendering
                                     _sceneryvbo,
                                     _scenerylines);
                             }
-                            else
+                            else if (line.Type == LineType.Blue)
                             {
                                 AddLine(
                                     line,
                                     _physvbo,
                                     _physlines);
-                                _decorator.AddLine((StandardLine)line);
+                                _bluedecorator.AddLine((StandardLine)line);
+                            }
+                            else
+                            {
+                                AddLine(
+                                    line,
+                                    _accelvbo,
+                                    _accellines);
+                                _acceldecorator.AddLine((StandardLine)line);
                             }
                             break;
                         case LineActionType.Remove:
@@ -269,13 +343,21 @@ namespace linerider.Rendering
                                     _sceneryvbo,
                                     _scenerylines);
                             }
-                            else
+                            else if (line.Type == LineType.Blue)
                             {
                                 RemoveLine(
                                     line,
                                     _physvbo,
                                     _physlines);
-                                _decorator.RemoveLine((StandardLine)line);
+                                _bluedecorator.RemoveLine((StandardLine)line);
+                            }
+                            else
+                            {
+                                RemoveLine(
+                                    line,
+                                    _accelvbo,
+                                    _accellines);
+                                _acceldecorator.RemoveLine((StandardLine)line);
                             }
                             break;
                         case LineActionType.Change:
@@ -287,7 +369,7 @@ namespace linerider.Rendering
                                     _scenerylines,
                                     false);
                             }
-                            else
+                            else if (line.Type == LineType.Blue)
                             {
                                 bool hit = Settings.Editor.HitTest
                                     ? game.Track.Timeline.IsLineHit(line.ID)
@@ -297,7 +379,19 @@ namespace linerider.Rendering
                                     _physvbo,
                                     _physlines,
                                     hit);
-                                _decorator.LineChanged((StandardLine)line, hit);
+                                _bluedecorator.LineChanged((StandardLine)line, hit);
+                            }
+                            else
+                            {
+                                bool hit = Settings.Editor.HitTest
+                                  ? game.Track.Timeline.IsLineHit(line.ID)
+                                  : false;
+                                LineChanged(
+                                    line,
+                                    _accelvbo,
+                                    _accellines,
+                                    hit);
+                                _acceldecorator.LineChanged((StandardLine)line, hit);
                             }
                             break;
                     }

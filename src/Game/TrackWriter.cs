@@ -185,7 +185,9 @@ namespace linerider
         public void ReplaceLine(GameLine oldline, GameLine newline)
         {
             if (oldline.ID != newline.ID)
+            {
                 throw new Exception("can only replace lines with the same id");
+            }
             RegisterUndoAction(oldline, newline);
 
             var std = oldline as StandardLine;

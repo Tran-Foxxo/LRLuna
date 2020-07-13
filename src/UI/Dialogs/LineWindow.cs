@@ -18,6 +18,9 @@ namespace linerider.UI
         private PropertyTree _proptree;
         private GameLine _ownerline;
         private GameLine _linecopy;
+        private NumberProperty _angleProp;
+        private NumberProperty _length;
+        private NumberProperty _width;
         private bool _linechangemade = false;
         private const string DefaultTitle = "Line Properties";
         private bool closing = false;
@@ -125,10 +128,89 @@ namespace linerider.UI
         }
         private void SetupRedOptions(PropertyTree tree)
         {
+            var vec = _ownerline.GetVector();
+            var len = vec.Length;
+            var angle = Angle.FromVector(vec);
+            angle.Degrees += 90;
+            var lineProp = tree.Add("Line Properties", 120);
+
+            Console.WriteLine(_ownerline.GetType().ToString());
+
+            if (!(_ownerline is SceneryLine scenery))
+            {
+                var id = new NumberProperty(lineProp)
+                {
+                    Min = 0,
+                    Max = int.MaxValue - 1,
+                    NumberValue = _ownerline.ID,
+                    OnlyWholeNumbers = true,
+                };
+                id.ValueChanged += (o, e) =>
+                {
+                    ChangeID((int)id.NumberValue);
+                };
+                lineProp.Add("ID", id);
+            }
+
+            _length = new NumberProperty(lineProp)
+            {
+                Min = 0.0000001,
+                Max = double.MaxValue - 1,
+                NumberValue = len,
+            };
+            _length.ValueChanged += (o, e) =>
+            {
+                ChangeLength(_length.NumberValue);
+            };
+            lineProp.Add("Length", _length);
+
+            _angleProp = new NumberProperty(lineProp)
+            {
+                Min = 0,
+                Max = 360,
+                NumberValue = angle.Degrees,
+            };
+            _angleProp.ValueChanged += (o, e) =>
+            {
+                ChangeAngle(_angleProp.NumberValue);
+            };
+            lineProp.Add("Angle", _angleProp);
+
+            if (!(_ownerline is SceneryLine))
+            {
+                var multilines = new NumberProperty(lineProp)
+                {
+                    Min = 1,
+                    Max = int.MaxValue - 1,
+                    OnlyWholeNumbers = true,
+                };
+                multilines.NumberValue = GetMultiLines(true).Count;
+                multilines.ValueChanged += (o, e) =>
+                {
+                    Multiline((int)multilines.NumberValue);
+                };
+                lineProp.Add("Multilines", multilines);
+            }
+
+            if (_ownerline is SceneryLine sceneryLine)
+            {
+                _width = new NumberProperty(lineProp)
+                {
+                    Min = 0.1,
+                    Max = 25.5,
+                    NumberValue = _ownerline.Width,
+                };
+                _width.ValueChanged += (o, e) =>
+                {
+                    ChangeWidth(_width.NumberValue);
+                };
+                lineProp.Add("Width", _width);
+            }
+
             if (_ownerline is RedLine red)
             {
-                var table = tree.Add("Acceleration", 120);
-                var multiplier = new NumberProperty(table)
+                var acceleration = tree.Add("Acceleration", 120);
+                var multiplier = new NumberProperty(acceleration)
                 {
                     Min = 1,
                     Max = 255,
@@ -139,22 +221,10 @@ namespace linerider.UI
                 {
                     ChangeMultiplier((int)multiplier.NumberValue);
                 };
-                table.Add("Multiplier", multiplier);
-                var multilines = new NumberProperty(table)
-                {
-                    Min = 1,
-                    Max = 9999,
-                    OnlyWholeNumbers = true,
-                };
-                multilines.NumberValue = GetMultiLines(true).Count;
-                multilines.ValueChanged += (o, e) =>
-                {
-                    Multiline((int)multilines.NumberValue);
-                };
-                table.Add("Multilines", multilines);
+                acceleration.Add("Multiplier", multiplier);
 
                 var accelinverse = GwenHelper.AddPropertyCheckbox(
-                    table,
+                    acceleration,
                     "Inverse",
                     red.inv
                     );
@@ -189,7 +259,7 @@ namespace linerider.UI
                 var currenttrigger = physline.Trigger;
                 var triggerenabled = GwenHelper.AddPropertyCheckbox(
                     table,
-                    "Zoom Enabled",
+                    "Enabled",
                     currenttrigger != null);
 
                 var zoom = new NumberProperty(table)
@@ -212,9 +282,6 @@ namespace linerider.UI
                     frames.NumberValue = currenttrigger.ZoomFrames;
                 }
                 table.Add("Frames", frames);
-
-                
-
                 zoom.ValueChanged += (o, e) =>
                 {
                     using (var trk = _editor.CreateTrackWriter())
@@ -264,8 +331,74 @@ namespace linerider.UI
                             UpdateOwnerLine(trk, cpy);
                         }
                     }
-
                 };
+            }
+        }
+
+        private void ChangeAngle(double numberValue)
+        {
+            var multilines = GetMultiLines(false);
+            using (var trk = _editor.CreateTrackWriter())
+            {
+                var cpy = _ownerline.Clone();
+
+
+                var angle = Angle.FromDegrees(numberValue - 90).Radians - Angle.FromVector(cpy.GetVector()).Radians;
+                var ads = Angle.FromRadians(angle).Degrees;
+                var newX = ((cpy.Position2.X - cpy.Position.X) * Math.Cos(angle)) - ((cpy.Position2.Y - cpy.Position.Y) * Math.Sin(angle)) + cpy.Position.X;
+                var newY = ((cpy.Position2.Y - cpy.Position.Y) * Math.Cos(angle)) + ((cpy.Position2.X - cpy.Position.X) * Math.Sin(angle)) + cpy.Position.Y;
+                var newPos = new Vector2d(newX, newY);
+                cpy.Position2 = newPos;
+                UpdateOwnerLine(trk, cpy);
+
+                
+                foreach (var line in multilines)
+                {
+                    var copy = line.Clone();
+                    copy.Position2 = newPos;
+                    UpdateLine(trk, line, copy);
+                }
+            }
+        }
+
+        private void ChangeWidth(double width)
+        {
+            using (var trk = _editor.CreateTrackWriter())
+            {
+                var cpy = _ownerline.Clone();
+                cpy.Width = (float)width;
+                UpdateOwnerLine(trk, cpy);
+            }
+        }
+
+        private void ChangeID(int newID)
+        {
+            
+        }
+
+        private void ChangeLength(double length)
+        {
+            var multilines = GetMultiLines(false);
+            using (var trk = _editor.CreateTrackWriter())
+            {
+                var cpy = _ownerline.Clone();
+                var angle = Angle.FromVector(cpy.GetVector()).Radians;
+
+                var x2 = cpy.Position.X + (length * Math.Cos(angle));
+                var y2 = cpy.Position.Y + (length * Math.Sin(angle));
+
+                var newPos = new Vector2d(x2,y2);
+                cpy.Position2 = newPos;
+                UpdateOwnerLine(trk, cpy);
+
+                //System.Diagnostics.Debug.WriteLine(Angle.FromVector(cpy.GetVector()).Degrees);
+
+                foreach (var line in multilines)
+                {
+                    var copy = line.Clone();
+                    copy.Position2 = newPos;
+                    UpdateLine(trk, line, copy);
+                }
             }
         }
 
@@ -304,49 +437,71 @@ namespace linerider.UI
         }
         private SimulationCell GetMultiLines(bool includeowner)
         {
-            SimulationCell redlines = new SimulationCell();
+            SimulationCell multilines = new SimulationCell();
             using (var trk = _editor.CreateTrackReader())
             {
                 var owner = (StandardLine)_ownerline;
                 var lines = trk.GetLinesInRect(new Utils.DoubleRect(owner.Position, new Vector2d(1, 1)), false);
-                foreach (var red in lines)
+                foreach (var line in lines)
                 {
                     if (
-                        red is RedLine stl &&
-                        red.Position == owner.Position &&
-                        red.Position2 == owner.Position2 &&
-                        (includeowner || red.ID != owner.ID))
+                        line is RedLine stl &&
+                        owner is RedLine stls &&
+                        line.Position == owner.Position &&
+                        line.Position2 == owner.Position2 &&
+                        (includeowner || line.ID != owner.ID))
                     {
-                        redlines.AddLine(stl);
+                        multilines.AddLine(stl);
+                    }
+                    if (
+                        line is StandardLine stlstd &&
+                        owner is StandardLine stlstds &&
+                        line.Position == owner.Position &&
+                        line.Position2 == owner.Position2 &&
+                        (includeowner || line.ID != owner.ID))
+                    {
+                        multilines.AddLine(stlstd);
                     }
                 }
             }
-            return redlines;
+            return multilines;
         }
         private void Multiline(int count)
         {
-            SimulationCell redlines = GetMultiLines(false);
+            SimulationCell multilines = GetMultiLines(false);
             using (var trk = _editor.CreateTrackWriter())
             {
                 var owner = (StandardLine)_ownerline;
                 MakingChange();
                 // owner line doesn't count, but our min bounds is 1
-                var diff = (count - 1) - redlines.Count;
+                var diff = (count - 1) - multilines.Count;
                 if (diff < 0)
                 {
                     for (int i = 0; i > diff; i--)
                     {
-                        trk.RemoveLine(redlines.First());
-                        redlines.RemoveLine(redlines.First().ID);
+                        trk.RemoveLine(multilines.First());
+                        multilines.RemoveLine(multilines.First().ID);
                     }
                 }
                 else if (diff > 0)
                 {
-                    for (int i = 0; i < diff; i++)
+                    if (_ownerline is RedLine redline)
                     {
-                        var red = new RedLine(owner.Position, owner.Position2, owner.inv) { Multiplier = ((RedLine)owner).Multiplier };
-                        red.CalculateConstants();
-                        trk.AddLine(red);
+                        for (int i = 0; i < diff; i++)
+                        {
+                            var red = new RedLine(owner.Position, owner.Position2, owner.inv) { Multiplier = ((RedLine)owner).Multiplier };
+                            red.CalculateConstants();
+                            trk.AddLine(red);
+                        }
+                    }
+                    else if (_ownerline is StandardLine blueline)
+                    {
+                        for (int i = 0; i < diff; i++)
+                        {
+                            var blue = new StandardLine(owner.Position, owner.Position2, owner.inv);
+                            blue.CalculateConstants();
+                            trk.AddLine(blue);
+                        }
                     }
                 }
             }

@@ -56,9 +56,9 @@ namespace linerider.Utils
 
         public static readonly Color DefaultLineColor = Color.FromArgb(0, 0, 0);
 
-        public static Color ColorDefaultLine = Color.FromArgb(LineRed, LineGreen, LineBlue);
-        public static Color ColorSceneryLine = Color.FromArgb(SceneryLineRed, SceneryLineGreen, SceneryLineBlue);
-        public static Color ColorAccelerationLine = Color.FromArgb(AccelerationLineRed, AccelerationLineGreen, AccelerationLineBlue);
+        public static Color ColorDefaultLine = Color.FromArgb(Settings.LineColorRed, Settings.LineColorGreen, Settings.LineColorBlue);
+        public static Color ColorSceneryLine = Color.FromArgb(Settings.SceneryLineColorRed, Settings.SceneryLineColorGreen, Settings.SceneryLineColorBlue);
+        public static Color ColorAccelerationLine = Color.FromArgb(Settings.AccelerationLineColorRed, Settings.AccelerationLineColorGreen, Settings.AccelerationLineColorBlue);
 
         public static readonly Color DefaultNightLineColor = Color.FromArgb(255, 255, 255);
 

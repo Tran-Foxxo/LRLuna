@@ -44,6 +44,7 @@ namespace linerider.Rendering
         }
         public void Clear()
         {
+            //_linebuffer = new LineRenderer(Shaders.LineShader);
             _lines.Clear();
             _linebuffer.Clear();
         }

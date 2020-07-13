@@ -30,6 +30,8 @@ namespace linerider.UI
         private TrackLabel _fpslabel;
         private TrackLabel _playbackratelabel;
         private TrackLabel _riderspeedlabel;
+        private TrackLabel _cameraoffsetlabel;
+        private TrackLabel _camerazoomlabel;
         private Panel _iconpanel;
         private Sprite _usercamerasprite;
         private Stopwatch _fpswatch = new Stopwatch();
@@ -49,6 +51,10 @@ namespace linerider.UI
             _playbackratelabel.IsHidden = rec || _editor.Scheduler.UpdatesPerSecond == 40;
             _usercamerasprite.IsHidden = !_editor.UseUserZoom && _editor.Zoom == _editor.Timeline.GetFrameZoom(_editor.Offset);
             _iconpanel.IsHidden = _usercamerasprite.IsHidden;
+
+            _cameraoffsetlabel.IsHidden = rec;
+            _camerazoomlabel.IsHidden = rec;
+
         }
         private void Setup()
         {
@@ -98,7 +104,7 @@ namespace linerider.UI
                 Margin = new Margin(0, 0, 5, 0),
                 UserData = 0.0,
             }; 
-            var cameraoffsetlabel = new TrackLabel(this)
+            _cameraoffsetlabel = new TrackLabel(this)
             {
                 Dock = Dock.Top,
                 Alignment = Pos.Right | Pos.CenterV,
@@ -106,7 +112,20 @@ namespace linerider.UI
                 {
                     var x = string.Format("{0:N2}", Math.Round(_editor.CameraOffset.X, 2));
                     var y = string.Format("{0:N2}", Math.Round(_editor.CameraOffset.Y, 2));
-                    return x+","+y;
+                    return "Camera Offset: ("+x+","+y+")";
+                },
+                Margin = new Margin(0, 0, 5, 0),
+                UserData = 0.0,
+            };
+            _camerazoomlabel = new TrackLabel(this)
+            {
+                Dock = Dock.Top,
+                Alignment = Pos.Right | Pos.CenterV,
+                TextRequest = (o, e) =>
+                {
+                    //var zoom = string.Format("{0:N2}", Math.Round(_editor.Zoom, 2));
+                    var zoom = _editor.Zoom;
+                    return "Camera Zoom: "+zoom;
                 },
                 Margin = new Margin(0, 0, 5, 0),
                 UserData = 0.0,
